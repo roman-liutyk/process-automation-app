@@ -11,7 +11,9 @@ class AuthState with _$AuthState {
   const factory AuthState.authenticated({
     required UserModel user,
   }) = _Authenticated;
-  const factory AuthState.unauthenticated() = _Unauthenticated;
+  const factory AuthState.unauthenticated({
+    String? errorMessage,
+  }) = _Unauthenticated;
   const factory AuthState.authenticating() = _Authenticating;
 }
 
@@ -29,12 +31,23 @@ class AuthNotifier extends StateNotifier<AuthState> {
     required String password,
   }) async {
     try {
+      state = const AuthState.authenticating();
       await _authRepository.signIn(
         email: email,
         password: password,
       );
+      state = const AuthState.authenticated(
+        user: UserModel(
+          uid: 'uid',
+          email: 'email',
+          firstName: 'firstName',
+          lastName: 'lastName',
+        ),
+      );
     } catch (e) {
-      rethrow;
+      state = AuthState.unauthenticated(
+        errorMessage: e is FirebaseAuthException ? e.message : 'Unknown error',
+      );
     }
   }
 
@@ -45,22 +58,54 @@ class AuthNotifier extends StateNotifier<AuthState> {
     required String lastName,
   }) async {
     try {
+      state = const AuthState.authenticating();
       await _authRepository.signUp(
         email: email,
         password: password,
         firstName: firstName,
         lastName: lastName,
       );
+      state = const AuthState.authenticated(
+        user: UserModel(
+          uid: 'uid',
+          email: 'email',
+          firstName: 'firstName',
+          lastName: 'lastName',
+        ),
+      );
     } catch (e) {
-      rethrow;
+      state = AuthState.unauthenticated(
+        errorMessage: e is FirebaseAuthException ? e.message : 'Unknown error',
+      );
     }
   }
 
   Future<void> signInWithGoogle() async {
     try {
-      await _authRepository.googleSignIn();
+      state = const AuthState.authenticating();
+      await _authRepository.signInWithGoogle();
+      state = const AuthState.authenticated(
+        user: UserModel(
+          uid: 'uid',
+          email: 'email',
+          firstName: 'firstName',
+          lastName: 'lastName',
+        ),
+      );
     } catch (e) {
-      rethrow;
+      state = AuthState.unauthenticated(
+        errorMessage: e is FirebaseAuthException ? e.message : 'Unknown error',
+      );
+    }
+  }
+
+  Future<void> signInWithGithub() async {
+    try {
+      await _authRepository.signInWithGitHub();
+    } catch (e) {
+      state = AuthState.unauthenticated(
+        errorMessage: e is FirebaseAuthException ? e.message : 'Unknown error',
+      );
     }
   }
 }

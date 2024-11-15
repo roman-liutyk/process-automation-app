@@ -6,24 +6,31 @@ import 'package:process_automation_app/features/home/views/home_view.dart';
 import 'package:process_automation_app/features/project/views/project_view.dart';
 
 final GoRouter appRouter = GoRouter(
+  debugLogDiagnostics: true,
   initialLocation: '/sign_in',
-  redirect: (context, state) async {
-    final bool loggedIn = FirebaseAuth.instance.currentUser != null;
-    final bool loggingIn = state.matchedLocation == '/sign_in';
-    if (!loggedIn) return '/sign_in';
-    if (loggingIn) return '/';
-    // no need to redirect at all
-    return null;
-  },
   routes: [
     GoRoute(
       path: '/sign_in',
+      redirect: (context, state) async {
+        final User? user = FirebaseAuth.instance.currentUser;
+        if (user == null) {
+          return '/sign_in';
+        }
+        return '/';
+      },
       pageBuilder: (context, state) => const NoTransitionPage(
         child: SignInView(),
       ),
     ),
     GoRoute(
       path: '/sign_up',
+      redirect: (context, state) async {
+        final User? user = FirebaseAuth.instance.currentUser;
+        if (user == null) {
+          return '/sign_up';
+        }
+        return '/';
+      },
       pageBuilder: (context, state) => const NoTransitionPage(
         child: SignUpView(),
       ),
