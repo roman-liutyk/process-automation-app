@@ -19,21 +19,21 @@ mixin _$AuthState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(UserModel user) authenticated,
-    required TResult Function() unauthenticated,
+    required TResult Function(String? errorMessage) unauthenticated,
     required TResult Function() authenticating,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(UserModel user)? authenticated,
-    TResult? Function()? unauthenticated,
+    TResult? Function(String? errorMessage)? unauthenticated,
     TResult? Function()? authenticating,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(UserModel user)? authenticated,
-    TResult Function()? unauthenticated,
+    TResult Function(String? errorMessage)? unauthenticated,
     TResult Function()? authenticating,
     required TResult orElse(),
   }) =>
@@ -151,7 +151,7 @@ class _$AuthenticatedImpl implements _Authenticated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(UserModel user) authenticated,
-    required TResult Function() unauthenticated,
+    required TResult Function(String? errorMessage) unauthenticated,
     required TResult Function() authenticating,
   }) {
     return authenticated(user);
@@ -161,7 +161,7 @@ class _$AuthenticatedImpl implements _Authenticated {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(UserModel user)? authenticated,
-    TResult? Function()? unauthenticated,
+    TResult? Function(String? errorMessage)? unauthenticated,
     TResult? Function()? authenticating,
   }) {
     return authenticated?.call(user);
@@ -171,7 +171,7 @@ class _$AuthenticatedImpl implements _Authenticated {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(UserModel user)? authenticated,
-    TResult Function()? unauthenticated,
+    TResult Function(String? errorMessage)? unauthenticated,
     TResult Function()? authenticating,
     required TResult orElse(),
   }) {
@@ -234,6 +234,8 @@ abstract class _$$UnauthenticatedImplCopyWith<$Res> {
   factory _$$UnauthenticatedImplCopyWith(_$UnauthenticatedImpl value,
           $Res Function(_$UnauthenticatedImpl) then) =
       __$$UnauthenticatedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String? errorMessage});
 }
 
 /// @nodoc
@@ -246,57 +248,84 @@ class __$$UnauthenticatedImplCopyWithImpl<$Res>
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? errorMessage = freezed,
+  }) {
+    return _then(_$UnauthenticatedImpl(
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$UnauthenticatedImpl implements _Unauthenticated {
-  const _$UnauthenticatedImpl();
+  const _$UnauthenticatedImpl({this.errorMessage});
+
+  @override
+  final String? errorMessage;
 
   @override
   String toString() {
-    return 'AuthState.unauthenticated()';
+    return 'AuthState.unauthenticated(errorMessage: $errorMessage)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$UnauthenticatedImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$UnauthenticatedImpl &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, errorMessage);
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UnauthenticatedImplCopyWith<_$UnauthenticatedImpl> get copyWith =>
+      __$$UnauthenticatedImplCopyWithImpl<_$UnauthenticatedImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(UserModel user) authenticated,
-    required TResult Function() unauthenticated,
+    required TResult Function(String? errorMessage) unauthenticated,
     required TResult Function() authenticating,
   }) {
-    return unauthenticated();
+    return unauthenticated(errorMessage);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(UserModel user)? authenticated,
-    TResult? Function()? unauthenticated,
+    TResult? Function(String? errorMessage)? unauthenticated,
     TResult? Function()? authenticating,
   }) {
-    return unauthenticated?.call();
+    return unauthenticated?.call(errorMessage);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(UserModel user)? authenticated,
-    TResult Function()? unauthenticated,
+    TResult Function(String? errorMessage)? unauthenticated,
     TResult Function()? authenticating,
     required TResult orElse(),
   }) {
     if (unauthenticated != null) {
-      return unauthenticated();
+      return unauthenticated(errorMessage);
     }
     return orElse();
   }
@@ -337,7 +366,16 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
 }
 
 abstract class _Unauthenticated implements AuthState {
-  const factory _Unauthenticated() = _$UnauthenticatedImpl;
+  const factory _Unauthenticated({final String? errorMessage}) =
+      _$UnauthenticatedImpl;
+
+  String? get errorMessage;
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UnauthenticatedImplCopyWith<_$UnauthenticatedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -382,7 +420,7 @@ class _$AuthenticatingImpl implements _Authenticating {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(UserModel user) authenticated,
-    required TResult Function() unauthenticated,
+    required TResult Function(String? errorMessage) unauthenticated,
     required TResult Function() authenticating,
   }) {
     return authenticating();
@@ -392,7 +430,7 @@ class _$AuthenticatingImpl implements _Authenticating {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(UserModel user)? authenticated,
-    TResult? Function()? unauthenticated,
+    TResult? Function(String? errorMessage)? unauthenticated,
     TResult? Function()? authenticating,
   }) {
     return authenticating?.call();
@@ -402,7 +440,7 @@ class _$AuthenticatingImpl implements _Authenticating {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(UserModel user)? authenticated,
-    TResult Function()? unauthenticated,
+    TResult Function(String? errorMessage)? unauthenticated,
     TResult Function()? authenticating,
     required TResult orElse(),
   }) {
