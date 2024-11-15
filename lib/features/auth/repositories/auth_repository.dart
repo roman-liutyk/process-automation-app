@@ -78,8 +78,5 @@ class AuthRepositoryImpl implements AuthRepository {
     if (token != null) {
       window.localStorage['auth_token'] = token;
     }
-
-    print(credentials.user.toString());
-    print(token);
   }
 }
