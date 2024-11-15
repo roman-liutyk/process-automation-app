@@ -102,7 +102,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Text('You already have an account. '),
+                          const Text('You already have an account? '),
                           InkWell(
                             onTap: () {
                               context.go('/sign_in');

@@ -20,6 +20,9 @@ class ProjectCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: const Color.fromARGB(20, 0, 0, 0),
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.25),

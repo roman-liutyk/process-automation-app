@@ -70,7 +70,7 @@ class HomeView extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 20),
                       child: ProjectCard(
                         project: projects[index],
-                        onTap: () => context.push('/project/$index'),
+                        onTap: () => context.push('/project/index'),
                       ),
                     );
                   },

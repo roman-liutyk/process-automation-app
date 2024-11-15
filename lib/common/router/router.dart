@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:process_automation_app/features/auth/views/sign_in_view.dart';
 import 'package:process_automation_app/features/auth/views/sign_up_view.dart';
 import 'package:process_automation_app/features/home/views/home_view.dart';
+import 'package:process_automation_app/features/project/views/project_view.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/sign_in',
@@ -32,6 +33,14 @@ final GoRouter appRouter = GoRouter(
       pageBuilder: (context, state) => const NoTransitionPage(
         child: HomeView(),
       ),
+    ),
+    GoRoute(
+      path: '/project/index',
+      pageBuilder: (context, state) {
+        return const NoTransitionPage(
+          child: ProjectView(),
+        );
+      },
     ),
   ],
 );
