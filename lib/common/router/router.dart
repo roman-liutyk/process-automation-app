@@ -4,7 +4,7 @@ import 'package:process_automation_app/features/auth/views/sign_up_view.dart';
 import 'package:process_automation_app/features/dashboard/views/dashboard_view.dart.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/sign_in',
   routes: [
     GoRoute(
       path: '/sign_in',
