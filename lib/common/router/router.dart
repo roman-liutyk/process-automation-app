@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:process_automation_app/features/auth/views/sign_in_view.dart';
 import 'package:process_automation_app/features/auth/views/sign_up_view.dart';
-import 'package:process_automation_app/features/home/views/home_view.dart';
+import 'package:process_automation_app/features/project/views/project_list_view.dart';
+import 'package:process_automation_app/features/task/views/task_board_view.dart';
 import 'package:process_automation_app/features/project/views/project_view.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -19,7 +20,7 @@ final GoRouter appRouter = GoRouter(
         return '/';
       },
       pageBuilder: (context, state) => const NoTransitionPage(
-        child: HomeView(),
+        child: SignInView(),
       ),
     ),
     GoRoute(
@@ -38,8 +39,24 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/',
       pageBuilder: (context, state) => const NoTransitionPage(
-        child: HomeView(),
+        child: ProjectListView(),
       ),
+      routes: [
+        GoRoute(
+          path: ':uuid/tasks',
+          pageBuilder: (context, state) => const NoTransitionPage(
+            child: TaskBoardView(),
+          ),
+        ),
+      ],
+    ),
+    GoRoute(
+      path: '/project/index',
+      pageBuilder: (context, state) {
+        return const NoTransitionPage(
+          child: ProjectView(),
+        );
+      },
     ),
     GoRoute(
       path: '/project/index',
