@@ -15,7 +15,9 @@ abstract class AuthRepository {
     required String password,
   });
 
-  Future<void> googleSignIn();
+  Future<void> signInWithGoogle();
+
+  Future<void> signInWithGitHub();
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -50,11 +52,28 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    final UserCredential credentials =
-        await _firebaseAuth.createUserWithEmailAndPassword(
+    await _firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
+
+    await _firebaseAuth.currentUser?.updateDisplayName('$firstName $lastName');
+
+    _firebaseAuth.currentUser?.reload();
+
+    final String? token = await _firebaseAuth.currentUser?.getIdToken();
+
+    if (token != null) {
+      window.localStorage['auth_token'] = token;
+    }
+  }
+
+  @override
+  Future<void> signInWithGoogle() async {
+    GoogleAuthProvider authProvider = GoogleAuthProvider();
+
+    final UserCredential credentials =
+        await _firebaseAuth.signInWithPopup(authProvider);
 
     final String? token = await credentials.user?.getIdToken();
 
@@ -64,11 +83,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> googleSignIn() async {
-    GoogleAuthProvider authProvider = GoogleAuthProvider();
+  Future<void> signInWithGitHub() async {
+    final OAuthProvider provider = OAuthProvider('github.com');
 
     final UserCredential credentials =
-        await _firebaseAuth.signInWithPopup(authProvider);
+        await _firebaseAuth.signInWithPopup(provider);
 
     final String? token = await credentials.user?.getIdToken();
 
