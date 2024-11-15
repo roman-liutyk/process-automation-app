@@ -50,13 +50,16 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    final UserCredential credentials =
-        await _firebaseAuth.createUserWithEmailAndPassword(
+    await _firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
 
-    final String? token = await credentials.user?.getIdToken();
+    await _firebaseAuth.currentUser?.updateDisplayName('$firstName $lastName');
+
+    _firebaseAuth.currentUser?.reload();
+
+    final String? token = await _firebaseAuth.currentUser?.getIdToken();
 
     if (token != null) {
       window.localStorage['auth_token'] = token;
@@ -75,5 +78,8 @@ class AuthRepositoryImpl implements AuthRepository {
     if (token != null) {
       window.localStorage['auth_token'] = token;
     }
+
+    print(credentials.user.toString());
+    print(token);
   }
 }
