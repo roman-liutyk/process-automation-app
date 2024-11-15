@@ -67,11 +67,11 @@ Password must contain:
 
     final Set<String> uniqueChars = trimmedValue.split('').toSet();
     if (uniqueChars.length < 4) {
-      return 'Password must contain at least 4 unique characters';
+      return 'Password must contain at least 4 unique \ncharacters';
     }
 
     if (_isCommonPassword(trimmedValue)) {
-      return 'This password is too common. Please choose a stronger password';
+      return 'This password is too common. \nPlease choose a stronger password';
     }
 
     return null;
@@ -92,7 +92,7 @@ Password must contain:
     }
 
     if (!_nameRegExp.hasMatch(trimmedValue)) {
-      return '$fieldName can only contain letters, spaces, and hyphens';
+      return '$fieldName can only contain letters, spaces, \nand hyphens';
     }
 
     return null;

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:process_automation_app/common/utils/validators.dart';
 import 'package:process_automation_app/features/auth/providers/auth_provider.dart';
 import 'package:process_automation_app/shared/widgets/primary_button.dart';
+import 'package:process_automation_app/shared/widgets/primary_container.dart';
 import 'package:process_automation_app/shared/widgets/primary_text_field.dart';
 
 class SignInView extends ConsumerStatefulWidget {
@@ -66,70 +67,59 @@ class _SignInViewState extends ConsumerState<SignInView> {
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(15),
-                        ),
-                        border: Border.all(
-                          color: const Color(0xFFE8EAED),
-                        ),
-                      ),
+                    PrimaryContainer(
+                      padding: const EdgeInsets.all(20),
                       child: SizedBox(
-                        width: 300,
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Form(
-                            key: _formKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                PrimaryTextField(
-                                  controller: _emailController,
-                                  placeholder: 'Email',
-                                  validator: Validators.email,
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                PrimaryTextField(
-                                  controller: _passwordController,
-                                  obscureText: true,
-                                  placeholder: 'Password',
-                                  validator: Validators.password,
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                PrimaryButton(
-                                  title: 'Sign In',
-                                  callback: _submitForm,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Text('Don\'t have an account? '),
-                                    InkWell(
-                                      onTap: () {
-                                        context.go('/sign_up');
-                                      },
-                                      child: const Text(
-                                        'Sign up',
-                                        style: TextStyle(
-                                          color: Color(0xFF3B82F6),
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                        width: 288,
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              PrimaryTextField(
+                                controller: _emailController,
+                                placeholder: 'Email',
+                                validator: Validators.email,
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              PrimaryTextField(
+                                controller: _passwordController,
+                                obscureText: true,
+                                placeholder: 'Password',
+                                validator: Validators.password,
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              PrimaryButton(
+                                title: 'Sign In',
+                                callback: _submitForm,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Text('Don\'t have an account? '),
+                                  InkWell(
+                                    onTap: () {
+                                      context.go('/sign_up');
+                                    },
+                                    child: const Text(
+                                      'Sign up',
+                                      style: TextStyle(
+                                        color: Color(0xFF3B82F6),
+                                        fontWeight: FontWeight.w500,
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ),
