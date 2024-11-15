@@ -83,7 +83,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<void> signInWithGoogle() async {
     try {
       state = const AuthState.authenticating();
-      await _authRepository.googleSignIn();
+      await _authRepository.signInWithGoogle();
       state = const AuthState.authenticated(
         user: UserModel(
           uid: 'uid',
@@ -92,6 +92,16 @@ class AuthNotifier extends StateNotifier<AuthState> {
           lastName: 'lastName',
         ),
       );
+    } catch (e) {
+      state = AuthState.unauthenticated(
+        errorMessage: e is FirebaseAuthException ? e.message : 'Unknown error',
+      );
+    }
+  }
+
+  Future<void> signInWithGithub() async {
+    try {
+      await _authRepository.signInWithGitHub();
     } catch (e) {
       state = AuthState.unauthenticated(
         errorMessage: e is FirebaseAuthException ? e.message : 'Unknown error',

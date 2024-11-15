@@ -136,6 +136,15 @@ class _SignInViewState extends ConsumerState<SignInView> {
                         ref.read(authProvider.notifier).signInWithGoogle();
                       },
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    PrimaryButton(
+                      title: 'Sign in with GitHub',
+                      callback: () {
+                        ref.read(authProvider.notifier).signInWithGithub();
+                      },
+                    ),
                   ],
                 ),
               ),
