@@ -19,7 +19,7 @@ final GoRouter appRouter = GoRouter(
         return '/';
       },
       pageBuilder: (context, state) => const NoTransitionPage(
-        child: SignInView(),
+        child: HomeView(),
       ),
     ),
     GoRoute(

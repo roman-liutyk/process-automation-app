@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:process_automation_app/common/utils/validators.dart';
 import 'package:process_automation_app/features/auth/providers/auth_provider.dart';
 import 'package:process_automation_app/shared/widgets/primary_button.dart';
 import 'package:process_automation_app/shared/widgets/primary_text_field.dart';
@@ -17,6 +18,15 @@ class _SignInViewState extends ConsumerState<SignInView> {
   final TextEditingController _passwordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  void _submitForm() {
+    if (_formKey.currentState?.validate() ?? false) {
+      ref.read(authProvider.notifier).signIn(
+            email: _emailController.text.trim(),
+            password: _passwordController.text,
+          );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +89,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
                                 PrimaryTextField(
                                   controller: _emailController,
                                   placeholder: 'Email',
+                                  validator: Validators.email,
                                 ),
                                 const SizedBox(
                                   height: 20,
@@ -87,18 +98,14 @@ class _SignInViewState extends ConsumerState<SignInView> {
                                   controller: _passwordController,
                                   obscureText: true,
                                   placeholder: 'Password',
+                                  validator: Validators.password,
                                 ),
                                 const SizedBox(
                                   height: 20,
                                 ),
                                 PrimaryButton(
                                   title: 'Sign In',
-                                  callback: () {
-                                    ref.read(authProvider.notifier).signIn(
-                                          email: _emailController.text.trim(),
-                                          password: _passwordController.text,
-                                        );
-                                  },
+                                  callback: _submitForm,
                                 ),
                                 const SizedBox(
                                   height: 10,

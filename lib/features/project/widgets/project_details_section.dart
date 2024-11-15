@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:process_automation_app/features/project/models/team_member.dart';
 import 'package:process_automation_app/features/project/widgets/team_member_tile.dart';
+import 'package:process_automation_app/shared/widgets/primary_container.dart';
 
 class ProjectDetailsSection extends StatelessWidget {
   final String status;
@@ -18,22 +19,7 @@ class ProjectDetailsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: const Color.fromARGB(20, 0, 0, 0),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.25),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
+    return PrimaryContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

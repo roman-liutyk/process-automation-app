@@ -6,17 +6,20 @@ class PrimaryTextField extends StatelessWidget {
     required this.controller,
     required this.placeholder,
     this.obscureText = false,
+    this.validator,
   });
 
   final TextEditingController controller;
   final String placeholder;
   final bool obscureText;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
+      validator: validator,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,

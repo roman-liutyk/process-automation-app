@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:process_automation_app/common/utils/validators.dart';
 import 'package:process_automation_app/features/auth/providers/auth_provider.dart';
 import 'package:process_automation_app/shared/widgets/primary_button.dart';
 import 'package:process_automation_app/shared/widgets/primary_text_field.dart';
@@ -20,6 +21,17 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
   final TextEditingController _confirmPassword = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  void _submitForm() {
+    if (_formKey.currentState?.validate() ?? false) {
+      ref.read(authProvider.notifier).signUp(
+            email: _emailController.text.trim(),
+            password: _passwordController.text,
+            firstName: _firstNameController.text.trim(),
+            lastName: _lastNameController.text.trim(),
+          );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +92,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                             PrimaryTextField(
                               controller: _firstNameController,
                               placeholder: 'First name',
+                              validator: (value) => Validators.name(value, 'First name'),
                             ),
                             const SizedBox(
                               height: 20,
@@ -87,6 +100,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                             PrimaryTextField(
                               controller: _lastNameController,
                               placeholder: 'Last name',
+                              validator: (value) => Validators.name(value, 'Last name'),
                             ),
                             const SizedBox(
                               height: 20,
@@ -94,6 +108,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                             PrimaryTextField(
                               controller: _emailController,
                               placeholder: 'Email',
+                              validator: Validators.email,
                             ),
                             const SizedBox(
                               height: 20,
@@ -102,6 +117,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                               controller: _passwordController,
                               obscureText: true,
                               placeholder: 'Password',
+                              validator: Validators.password,
                             ),
                             const SizedBox(
                               height: 20,
@@ -110,20 +126,17 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                               controller: _confirmPassword,
                               obscureText: true,
                               placeholder: 'Confirm password',
+                              validator: (value) => Validators.confirmPassword(
+                                value,
+                                _passwordController.text,
+                              ),
                             ),
                             const SizedBox(
                               height: 20,
                             ),
                             PrimaryButton(
                               title: 'Sign Up',
-                              callback: () {
-                                ref.read<AuthNotifier>(authProvider.notifier).signUp(
-                                      email: _emailController.text.trim(),
-                                      password: _passwordController.text,
-                                      firstName: _firstNameController.text.trim(),
-                                      lastName: _lastNameController.text.trim(),
-                                    );
-                              },
+                              callback: _submitForm,
                             ),
                             const SizedBox(
                               height: 10,
@@ -155,5 +168,15 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
               ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPassword.dispose();
+    super.dispose();
   }
 }
