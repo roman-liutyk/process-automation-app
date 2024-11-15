@@ -6,17 +6,22 @@ class PrimaryTextField extends StatelessWidget {
     required this.controller,
     required this.placeholder,
     this.obscureText = false,
+    this.prefix,
   });
 
   final TextEditingController controller;
   final String placeholder;
   final bool obscureText;
+  final Widget? prefix;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
+      style: const TextStyle(
+        fontSize: 16,
+      ),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
@@ -31,6 +36,11 @@ class PrimaryTextField extends StatelessWidget {
           ),
         ),
         hintText: placeholder,
+        hintStyle: TextStyle(
+          color: Colors.grey[500],
+          fontSize: 16,
+        ),
+        prefixIcon: prefix,
       ),
     );
   }

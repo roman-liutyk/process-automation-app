@@ -13,6 +13,9 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: const BorderRadius.all(
+        Radius.circular(10),
+      ),
       onTap: callback.call,
       child: DecoratedBox(
         decoration: const BoxDecoration(
@@ -29,6 +32,8 @@ class PrimaryButton extends StatelessWidget {
           child: Text(
             title,
             style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
               color: Colors.white,
             ),
           ),

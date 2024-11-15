@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:process_automation_app/features/home/widgets/project_stats.dart';
 import 'package:process_automation_app/features/project/models/project_model.dart';
 
-class ProjectCard extends StatelessWidget {
-  final Project project;
+class ProjectItem extends StatelessWidget {
+  final ProjectModel project;
   final VoidCallback onTap;
 
-  const ProjectCard({
+  const ProjectItem({
     super.key,
     required this.project,
     required this.onTap,
@@ -16,6 +15,9 @@ class ProjectCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      borderRadius: const BorderRadius.all(
+        Radius.circular(12),
+      ),
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -47,8 +49,29 @@ class ProjectCard extends StatelessWidget {
                   color: Colors.grey[600],
                 ),
               ),
-              const SizedBox(height: 16),
-              ProjectStats(project: project),
+              const SizedBox(height: 8),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: project.projectStatus.backgroundColor,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  child: Text(
+                    project.projectStatus.title,
+                    style: TextStyle(
+                      color: project.projectStatus.foregroundColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
