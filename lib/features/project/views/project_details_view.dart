@@ -13,12 +13,10 @@ class ProjectDetailsView extends StatelessWidget {
       body: ListView(
         children: [
           const ProjectDetailsHeader(),
-          const SizedBox(
-            height: 24,
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 36,
+              vertical: 24,
             ),
             child: PrimaryContainer(
               padding: const EdgeInsets.all(20),
