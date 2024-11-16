@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -38,7 +39,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       );
       state = const AuthState.authenticated(
         user: UserModel(
-          uid: 'uid',
+          id: 'uid',
           email: 'email',
           firstName: 'firstName',
           lastName: 'lastName',
@@ -67,7 +68,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       );
       state = const AuthState.authenticated(
         user: UserModel(
-          uid: 'uid',
+          id: 'uid',
           email: 'email',
           firstName: 'firstName',
           lastName: 'lastName',
@@ -86,7 +87,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       await _authRepository.signInWithGoogle();
       state = const AuthState.authenticated(
         user: UserModel(
-          uid: 'uid',
+          id: 'uid',
           email: 'email',
           firstName: 'firstName',
           lastName: 'lastName',
@@ -114,6 +115,7 @@ final authProvider = StateNotifierProvider<AuthNotifier, AuthState>(
   (ref) => AuthNotifier(
     authRepository: AuthRepositoryImpl(
       firebaseAuth: FirebaseAuth.instance,
+      dio: Dio(),
     ),
   ),
 );

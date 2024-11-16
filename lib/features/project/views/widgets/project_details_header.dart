@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:process_automation_app/common/utils/enums/project_status_enum.dart';
+import 'package:process_automation_app/features/project/models/project_model.dart';
 
 class ProjectDetailsHeader extends StatelessWidget {
-  const ProjectDetailsHeader({super.key});
+  const ProjectDetailsHeader({
+    super.key,
+    required this.project,
+  });
+
+  final ProjectModel project;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +44,7 @@ class ProjectDetailsHeader extends StatelessWidget {
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  'Projects / Project Name',
+                  'Projects / ${project.name}',
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey[500],
@@ -49,15 +55,15 @@ class ProjectDetailsHeader extends StatelessWidget {
             const SizedBox(
               height: 24,
             ),
-            const Text(
-              'Project details',
-              style: TextStyle(
+            Text(
+              project.name,
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
-              'Manage and track your projects',
+              project.description,
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[500],
@@ -69,7 +75,7 @@ class ProjectDetailsHeader extends StatelessWidget {
             DecoratedBox(
               decoration: BoxDecoration(
                 color: ProjectStatusEnum.values.first.backgroundColor,
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(4),
                 ),
               ),

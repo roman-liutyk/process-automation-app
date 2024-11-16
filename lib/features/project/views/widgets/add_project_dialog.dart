@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:process_automation_app/common/utils/enums/project_status_enum.dart';
+import 'package:process_automation_app/features/project/providers/project_provider.dart';
 import 'package:process_automation_app/shared/widgets/primary_button.dart';
 import 'package:process_automation_app/shared/widgets/primary_text_field.dart';
 
@@ -96,10 +98,19 @@ class _AddProjectDialogState extends State<AddProjectDialog> {
                   const SizedBox(
                     height: 16,
                   ),
-                  PrimaryButton(
-                    title: 'Create',
-                    callback: () {},
-                  ),
+                  Consumer(builder: (context, ref, _) {
+                    return PrimaryButton(
+                      title: 'Create',
+                      callback: () {
+                        ref.read(projectProvider.notifier).createProject(
+                              name: _nameController.text.trim(),
+                              description: _descriptionController.text.trim(),
+                              status: _status,
+                            );
+                        Navigator.pop(context);
+                      },
+                    );
+                  }),
                 ],
               )
             ],
