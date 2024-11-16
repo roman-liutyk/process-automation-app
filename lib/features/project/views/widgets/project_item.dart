@@ -41,7 +41,7 @@ class ProjectItem extends StatelessWidget {
             const SizedBox(height: 8),
             DecoratedBox(
               decoration: BoxDecoration(
-                color: project.projectStatus.backgroundColor,
+                color: project.status.backgroundColor,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(5),
                 ),
@@ -52,9 +52,9 @@ class ProjectItem extends StatelessWidget {
                   vertical: 4,
                 ),
                 child: Text(
-                  project.projectStatus.title,
+                  project.status.title,
                   style: TextStyle(
-                    color: project.projectStatus.foregroundColor,
+                    color: project.status.foregroundColor,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),

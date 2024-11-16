@@ -6,25 +6,25 @@ class ProjectModel {
     required this.uuid,
     required this.name,
     required this.description,
-    required this.projectStatus,
+    required this.status,
   });
 
   factory ProjectModel.fromJson(Json json) => ProjectModel(
-        uuid: json['uuid'] as String,
-        name: json['name'] as String,
-        description: json['description'] as String,
-        projectStatus: ProjectStatusEnum.fromString(json['project_status'] as String),
+        uuid: json['project_uuid'] as String,
+        name: json['project_name'] as String,
+        description: json['project_description'] as String,
+        status: ProjectStatusEnum.fromString(json['project_status'] as String),
       );
 
   final String uuid;
   final String name;
   final String description;
-  final ProjectStatusEnum projectStatus;
+  final ProjectStatusEnum status;
 
   Json toJson() => {
-        'uuid': uuid,
-        'name': name,
-        'description': description,
-        'project_status': projectStatus,
+        'project_uuid': uuid,
+        'project_name': name,
+        'project_description': description,
+        'project_status': status,
       };
 }

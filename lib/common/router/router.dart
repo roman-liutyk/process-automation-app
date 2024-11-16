@@ -4,7 +4,6 @@ import 'package:process_automation_app/features/auth/views/sign_in_view.dart';
 import 'package:process_automation_app/features/auth/views/sign_up_view.dart';
 import 'package:process_automation_app/features/project/views/project_list_view.dart';
 import 'package:process_automation_app/features/task/views/task_board_view.dart';
-import 'package:process_automation_app/features/project/views/project_view.dart';
 
 final GoRouter appRouter = GoRouter(
   debugLogDiagnostics: true,
@@ -43,28 +42,13 @@ final GoRouter appRouter = GoRouter(
       ),
       routes: [
         GoRoute(
-          path: ':uuid/tasks',
-          pageBuilder: (context, state) => const NoTransitionPage(
-            child: TaskBoardView(),
-          ),
-        ),
+            path: ':uuid/tasks',
+            pageBuilder: (context, state) {
+              return const NoTransitionPage(
+                child: TaskBoardView(),
+              );
+            }),
       ],
-    ),
-    GoRoute(
-      path: '/project/index',
-      pageBuilder: (context, state) {
-        return const NoTransitionPage(
-          child: ProjectView(),
-        );
-      },
-    ),
-    GoRoute(
-      path: '/project/index',
-      pageBuilder: (context, state) {
-        return const NoTransitionPage(
-          child: ProjectView(),
-        );
-      },
     ),
   ],
 );

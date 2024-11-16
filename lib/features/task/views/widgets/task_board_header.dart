@@ -24,7 +24,7 @@ class TaskBoardHeader extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Kanban board',
+              'Task board',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
