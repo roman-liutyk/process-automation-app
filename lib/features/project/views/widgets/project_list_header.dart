@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:process_automation_app/features/project/views/widgets/add_project_dialog.dart';
 import 'package:process_automation_app/features/project/views/widgets/profile_menu.dart';
 import 'package:process_automation_app/shared/widgets/primary_button.dart';
 import 'package:process_automation_app/shared/widgets/primary_text_field.dart';
@@ -57,7 +58,13 @@ class ProjectListHeader extends StatelessWidget {
             ),
             PrimaryButton(
               title: 'New project',
-              callback: () {},
+              callback: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const AddProjectDialog();
+                    });
+              },
             ),
             const SizedBox(
               height: 16,

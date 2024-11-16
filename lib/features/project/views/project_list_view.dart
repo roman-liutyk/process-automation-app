@@ -5,7 +5,6 @@ import 'package:process_automation_app/common/utils/enums/project_status_enum.da
 import 'package:process_automation_app/features/project/models/project_model.dart';
 import 'package:process_automation_app/features/project/views/widgets/project_item.dart';
 import 'package:process_automation_app/features/project/views/widgets/project_list_header.dart';
-import 'package:process_automation_app/features/task/providers/task_provider.dart';
 
 final List<ProjectModel> sampleProjects = [
   const ProjectModel(
@@ -107,9 +106,6 @@ class ProjectListView extends ConsumerWidget {
                     return ProjectItem(
                         project: sampleProjects[index],
                         onTap: () {
-                          ref.read(taskProvider.notifier).fetchTasks(
-                                projectId: sampleProjects[index].uuid,
-                              );
                           context.go('/${sampleProjects[index].uuid}/tasks');
                         });
                   },

@@ -28,7 +28,7 @@ class TaskNotifier extends StateNotifier<TaskState> {
         uuid: "1",
         name: "Set up project repository",
         description:
-            "Initialize the repository and add basic folder structure.Initialize the repository and add basic folder structure.Initialize the repository and add basic folder structure.Initialize the repository and add basic folder structure.",
+            "Initialize the repository and add basic folder structure.",
         status: TaskStatusEnum.todo,
         priority: TaskPriorityEnum.high,
         deadline: DateTime.now().add(const Duration(days: 3)),
@@ -271,8 +271,6 @@ class TaskNotifier extends StateNotifier<TaskState> {
 
     if (currentState != null) {
       state = const TaskState.loading();
-
-      // Future.delayed(Duration(milliseconds: 300));
 
       final List<TaskModel> updatedTasks = currentState.tasks
           .map(
