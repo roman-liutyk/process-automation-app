@@ -13,11 +13,13 @@ class ProfileMenu extends StatelessWidget {
       borderRadius: const BorderRadius.all(
         Radius.circular(100),
       ),
-      child: const CircleAvatar(
+      child: CircleAvatar(
         radius: 16,
-        backgroundImage: NetworkImage(
-          'https://ui-avatars.com/api/?name=John+Doe',
-        ),
+        backgroundImage: FirebaseAuth.instance.currentUser?.photoURL != null
+            ? NetworkImage(
+                FirebaseAuth.instance.currentUser!.photoURL!,
+              )
+            : null,
       ),
     );
   }

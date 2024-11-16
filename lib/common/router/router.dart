@@ -52,14 +52,18 @@ final GoRouter appRouter = GoRouter(
       routes: [
         GoRoute(
           path: ':uuid/details',
-          pageBuilder: (context, state) => const NoTransitionPage(
-            child: ProjectDetailsView(),
-          ),
+          pageBuilder: (context, state) {
+            window.localStorage['project_id'] =
+                state.pathParameters['uuid'] as String;
+            return const NoTransitionPage(
+              child: ProjectDetailsView(),
+            );
+          },
         ),
         GoRoute(
           path: ':uuid/tasks',
           pageBuilder: (context, state) {
-            window.sessionStorage['project_id'] =
+            window.localStorage['project_id'] =
                 state.pathParameters['uuid'] as String;
 
             return const NoTransitionPage(

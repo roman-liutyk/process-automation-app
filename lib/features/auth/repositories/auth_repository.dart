@@ -1,6 +1,10 @@
 import 'dart:html';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:process_automation_app/common/utils/app_constants.dart';
+import 'package:process_automation_app/features/auth/models/user_model.dart';
 
 abstract class AuthRepository {
   Future<void> signIn({
@@ -23,9 +27,12 @@ abstract class AuthRepository {
 class AuthRepositoryImpl implements AuthRepository {
   const AuthRepositoryImpl({
     required FirebaseAuth firebaseAuth,
-  }) : _firebaseAuth = firebaseAuth;
+    required Dio dio,
+  })  : _firebaseAuth = firebaseAuth,
+        _dio = dio;
 
   final FirebaseAuth _firebaseAuth;
+  final Dio _dio;
 
   @override
   Future<void> signIn({
@@ -65,6 +72,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
     if (token != null) {
       window.localStorage['auth_token'] = token;
+
+      await _createUser(token, _firebaseAuth.currentUser!);
     }
   }
 
@@ -79,6 +88,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
     if (token != null) {
       window.localStorage['auth_token'] = token;
+
+      await _createUser(token, credentials.user!);
     }
   }
 
@@ -93,6 +104,32 @@ class AuthRepositoryImpl implements AuthRepository {
 
     if (token != null) {
       window.localStorage['auth_token'] = token;
+
+      print(token);
+
+      await _createUser(token, credentials.user!);
     }
+  }
+
+  Future<UserModel> _createUser(String token, User user) async {
+    final Uri url = Uri.parse('${AppConstants.baseUrl}/users');
+
+    final response = await _dio.postUri(
+      url,
+      options: Options(
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+      ),
+      data: UserModel(
+        id: user.uid,
+        email: user.email!,
+        firstName: user.displayName!.split(' ')[0],
+        lastName: user.displayName!.split(' ')[1],
+        imageUrl: user.photoURL,
+      ).toJson(),
+    );
+
+    return UserModel.fromJson(response.data);
   }
 }

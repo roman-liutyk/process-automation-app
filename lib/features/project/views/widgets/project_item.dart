@@ -71,7 +71,8 @@ class ProjectItem extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {
-                context.go('/${project.uuid}/details');
+                print(project.id);
+                context.go('/${project.id}/details');
               },
               icon: const Icon(
                 Icons.settings_outlined,
