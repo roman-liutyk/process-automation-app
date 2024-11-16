@@ -1,10 +1,11 @@
+import 'dart:html';
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:process_automation_app/features/auth/views/sign_in_view.dart';
 import 'package:process_automation_app/features/auth/views/sign_up_view.dart';
+import 'package:process_automation_app/features/project/views/project_details_view.dart';
 import 'package:process_automation_app/features/project/views/project_list_view.dart';
-import 'package:process_automation_app/features/task/providers/task_provider.dart';
 import 'package:process_automation_app/features/task/views/task_board_view.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -50,13 +51,16 @@ final GoRouter appRouter = GoRouter(
       ),
       routes: [
         GoRoute(
+          path: ':uuid/details',
+          pageBuilder: (context, state) => const NoTransitionPage(
+            child: ProjectDetailsView(),
+          ),
+        ),
+        GoRoute(
           path: ':uuid/tasks',
           pageBuilder: (context, state) {
-            final ref = ProviderScope.containerOf(context);
-
-            ref.read(taskProvider.notifier).fetchTasks(
-                  projectId: state.pathParameters['uuid'] as String,
-                );
+            window.sessionStorage['project_id'] =
+                state.pathParameters['uuid'] as String;
 
             return const NoTransitionPage(
               child: TaskBoardView(),

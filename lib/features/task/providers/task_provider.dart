@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:process_automation_app/common/utils/enums/task_priority_enum.dart';
@@ -283,5 +285,6 @@ class TaskNotifier extends StateNotifier<TaskState> {
   }
 }
 
-final taskProvider =
-    StateNotifierProvider<TaskNotifier, TaskState>((ref) => TaskNotifier());
+final taskProvider = StateNotifierProvider.autoDispose<TaskNotifier, TaskState>(
+    (ref) => TaskNotifier()
+      ..fetchTasks(projectId: window.sessionStorage['project_id'] as String));
