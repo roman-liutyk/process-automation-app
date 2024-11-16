@@ -35,7 +35,7 @@ class PrimaryTextField extends StatelessWidget {
         ),
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(8),
+            Radius.circular(12),
           ),
           borderSide: BorderSide(
             color: Color(0xFFF9FAFA),

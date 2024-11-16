@@ -6,6 +6,7 @@ import 'package:process_automation_app/features/auth/providers/auth_provider.dar
 import 'package:process_automation_app/shared/widgets/primary_button.dart';
 import 'package:process_automation_app/shared/widgets/primary_container.dart';
 import 'package:process_automation_app/shared/widgets/primary_text_field.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SignInView extends ConsumerStatefulWidget {
   const SignInView({super.key});
@@ -68,7 +69,12 @@ class _SignInViewState extends ConsumerState<SignInView> {
                 child: Column(
                   children: [
                     PrimaryContainer(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.only(
+                        top: 20,
+                        left: 20,
+                        right: 20,
+                        bottom: 8,
+                      ),
                       child: SizedBox(
                         width: 288,
                         child: Form(
@@ -83,7 +89,7 @@ class _SignInViewState extends ConsumerState<SignInView> {
                                 validator: Validators.email,
                               ),
                               const SizedBox(
-                                height: 20,
+                                height: 16,
                               ),
                               PrimaryTextField(
                                 controller: _passwordController,
@@ -92,14 +98,14 @@ class _SignInViewState extends ConsumerState<SignInView> {
                                 validator: Validators.password,
                               ),
                               const SizedBox(
-                                height: 20,
+                                height: 16,
                               ),
                               PrimaryButton(
                                 title: 'Sign In',
                                 callback: _submitForm,
                               ),
                               const SizedBox(
-                                height: 10,
+                                height: 11,
                               ),
                               Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -125,19 +131,38 @@ class _SignInViewState extends ConsumerState<SignInView> {
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 16,
                     ),
                     PrimaryButton(
+                      width: 304,
+                      horizontalPadding: 12,
+                      borderColor: Colors.black.withOpacity(0.5),
+                      backgroundColor: Colors.white,
+                      textColor: Colors.black,
+                      image: SvgPicture.asset(
+                        'assets/google.svg',
+                        width: 28,
+                        height: 28,
+                      ),
                       title: 'Sign in with Google',
                       callback: () {
                         ref.read(authProvider.notifier).signInWithGoogle();
                       },
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 8,
                     ),
                     PrimaryButton(
-                      title: 'Sign in with GitHub',
+                      width: 304,
+                      horizontalPadding: 12,
+                      backgroundColor: Colors.black.withOpacity(0.85),
+                      image: SvgPicture.asset(
+                        'assets/github.svg',
+                        width: 28,
+                        height: 28,
+                        color: Colors.white,
+                      ),
+                      title: 'Sign in with Github',
                       callback: () {
                         ref.read(authProvider.notifier).signInWithGithub();
                       },
