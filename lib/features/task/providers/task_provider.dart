@@ -88,12 +88,85 @@ class TaskNotifier extends StateNotifier<TaskState> {
       state = currentState.copyWith(tasks: updatedTasks);
     }
   }
+
+  Future<void> updatePriority({
+    required TaskModel updatedTask,
+  }) async {
+    final currentState = state.mapOrNull(
+      loaded: (value) => value,
+    );
+
+    if (currentState != null) {
+      state = const TaskState.loading();
+
+      final task = await _taskRepository.updatePriority(
+        id: updatedTask.id,
+        priority: updatedTask.priority,
+      );
+
+      final List<TaskModel> updatedTasks = currentState.tasks
+          .map(
+            (e) => e.id == task.id ? task : e,
+          )
+          .toList();
+
+      state = currentState.copyWith(tasks: updatedTasks);
+    }
+  }
+
+  Future<void> updateAssignee({
+    required TaskModel updatedTask,
+  }) async {
+    final currentState = state.mapOrNull(
+      loaded: (value) => value,
+    );
+
+    if (currentState != null) {
+      state = const TaskState.loading();
+
+      final task = await _taskRepository.updateAssignee(
+        id: updatedTask.id,
+        assigneeId: updatedTask.assignee!.id,
+      );
+
+      final List<TaskModel> updatedTasks = currentState.tasks
+          .map(
+            (e) => e.id == task.id ? task : e,
+          )
+          .toList();
+
+      state = currentState.copyWith(tasks: updatedTasks);
+    }
+  }
+
+  Future<void> updateTask({
+    required TaskModel updatedTask,
+  }) async {
+    final currentState = state.mapOrNull(
+      loaded: (value) => value,
+    );
+
+    if (currentState != null) {
+      state = const TaskState.loading();
+
+      final task = await _taskRepository.updateTask(
+        task: updatedTask,
+      );
+
+      final List<TaskModel> updatedTasks = currentState.tasks
+          .map(
+            (e) => e.id == task.id ? task : e,
+          )
+          .toList();
+
+      state = currentState.copyWith(tasks: updatedTasks);
+    }
+  }
 }
 
-final taskProvider = StateNotifierProvider.autoDispose<TaskNotifier, TaskState>(
-    (ref) => TaskNotifier(
-          taskRepository: TaskRepositoryImpl(
-            dio: Dio(),
-            firebaseAuth: FirebaseAuth.instance,
-          ),
-        )..fetchTasks());
+final taskProvider = StateNotifierProvider.autoDispose<TaskNotifier, TaskState>((ref) => TaskNotifier(
+      taskRepository: TaskRepositoryImpl(
+        dio: Dio(),
+        firebaseAuth: FirebaseAuth.instance,
+      ),
+    )..fetchTasks());
