@@ -149,7 +149,7 @@ class ProjectDetailsView extends ConsumerWidget {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
         loading: (loading) => const Center(

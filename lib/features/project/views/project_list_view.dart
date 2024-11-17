@@ -43,24 +43,26 @@ class ProjectListView extends ConsumerWidget {
                         vertical: 24,
                       ),
                       sliver: SliverList(
-                        delegate: SliverChildListDelegate([
-                          ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: state.length,
-                            itemBuilder: (context, index) {
-                              return ProjectItem(
-                                  project: state[index],
-                                  onTap: () {
-                                    context.go('/${state[index].id}/tasks');
-                                  });
-                            },
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(
-                              height: 20,
+                        delegate: SliverChildListDelegate(
+                          [
+                            ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: state.length,
+                              itemBuilder: (context, index) {
+                                return ProjectItem(
+                                    project: state[index],
+                                    onTap: () {
+                                      context.go('/${state[index].id}/tasks');
+                                    });
+                              },
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
+                                height: 20,
+                              ),
                             ),
-                          ),
-                        ]),
+                          ],
+                        ),
                       ),
                     ),
         ],

@@ -35,11 +35,11 @@ class TaskModel {
         'description': description,
         'status': status.toString(),
         'priority': priority.toString,
-        'deadline': deadline?.toString(),
+        'deadline': deadline?..toIso8601String(),
         'assignee': assignee?.toJson(),
         'reporter': reporter?.toJson(),
         'project': project.toJson(),
-        'createdAt': createdAt.toString(),
+        'createdAt': createdAt..toIso8601String(),
       };
 
   factory TaskModel.fromJson(Json json) => TaskModel(
