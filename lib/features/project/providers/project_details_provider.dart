@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:process_automation_app/common/utils/enums/project_status_enum.dart';
@@ -65,6 +64,28 @@ class ProjectDetailsNotifier extends StateNotifier<ProjectDetailsState> {
     }
   }
 
+  Future<void> deleteProjectMember(String id) async {
+    final currentState = state.mapOrNull(
+      loaded: (value) => value,
+    );
+
+    if (currentState != null) {
+      try {
+        state = const ProjectDetailsState.loading();
+
+        await _projectRepository.deleteProjectMember(
+          id: id,
+        );
+
+        final members = await _projectRepository.fetchProjectMembers();
+
+        state = currentState.copyWith(members: members);
+      } catch (e) {
+        state = currentState.copyWith(errorMessage: 'Cannot delete a member');
+      }
+    }
+  }
+
   Future<void> updateProjectStatus({
     required ProjectStatusEnum status,
   }) async {
@@ -90,7 +111,8 @@ class ProjectDetailsNotifier extends StateNotifier<ProjectDetailsState> {
   }
 }
 
-final projectDetailsProvider = StateNotifierProvider.autoDispose<ProjectDetailsNotifier, ProjectDetailsState>(
+final projectDetailsProvider = StateNotifierProvider.autoDispose<
+    ProjectDetailsNotifier, ProjectDetailsState>(
   (ref) => ProjectDetailsNotifier(
     projectRepository: ProjectRepositoryImpl(
       dio: Dio(),

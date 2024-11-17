@@ -115,7 +115,8 @@ class TaskNotifier extends StateNotifier<TaskState> {
   }
 
   Future<void> updateAssignee({
-    required TaskModel updatedTask,
+    required String taskId,
+    required String? assignee,
   }) async {
     final currentState = state.mapOrNull(
       loaded: (value) => value,
@@ -125,8 +126,8 @@ class TaskNotifier extends StateNotifier<TaskState> {
       state = const TaskState.loading();
 
       final task = await _taskRepository.updateAssignee(
-        id: updatedTask.id,
-        assigneeId: updatedTask.assignee!.id,
+        id: taskId,
+        assigneeId: assignee,
       );
 
       final List<TaskModel> updatedTasks = currentState.tasks
@@ -164,9 +165,10 @@ class TaskNotifier extends StateNotifier<TaskState> {
   }
 }
 
-final taskProvider = StateNotifierProvider.autoDispose<TaskNotifier, TaskState>((ref) => TaskNotifier(
-      taskRepository: TaskRepositoryImpl(
-        dio: Dio(),
-        firebaseAuth: FirebaseAuth.instance,
-      ),
-    )..fetchTasks());
+final taskProvider = StateNotifierProvider.autoDispose<TaskNotifier, TaskState>(
+    (ref) => TaskNotifier(
+          taskRepository: TaskRepositoryImpl(
+            dio: Dio(),
+            firebaseAuth: FirebaseAuth.instance,
+          ),
+        )..fetchTasks());

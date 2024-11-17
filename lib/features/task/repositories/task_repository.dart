@@ -32,7 +32,7 @@ abstract class TaskRepository {
 
   Future<TaskModel> updateAssignee({
     required String id,
-    required String assigneeId,
+    required String? assigneeId,
   });
 
   Future<TaskModel> updateTask({
@@ -188,7 +188,7 @@ class TaskRepositoryImpl implements TaskRepository {
   @override
   Future<TaskModel> updateAssignee({
     required String id,
-    required String assigneeId,
+    required String? assigneeId,
   }) async {
     final Uri url = Uri.parse('${AppConstants.baseUrl}/tasks/$id/assignee');
 
@@ -235,11 +235,9 @@ class TaskRepositoryImpl implements TaskRepository {
         },
       ),
       data: {
-        {
-          'name': task.name,
-          'description': task.description,
-          'deadline': task.deadline?.toIso8601String()
-        },
+        'name': task.name,
+        'description': task.description,
+        'deadline': task.deadline?.toIso8601String()
       },
     );
 

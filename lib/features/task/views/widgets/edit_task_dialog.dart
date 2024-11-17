@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:process_automation_app/common/utils/enums/task_priority_enum.dart';
 import 'package:process_automation_app/common/utils/enums/task_status_enum.dart';
-import 'package:process_automation_app/features/auth/models/user_model.dart';
 import 'package:process_automation_app/features/project/providers/project_details_provider.dart';
 import 'package:process_automation_app/features/task/models/task_model.dart';
 import 'package:process_automation_app/features/task/providers/task_details_provider.dart';
@@ -33,7 +32,8 @@ class _EditTaskDialogState extends ConsumerState<EditTaskDialog> {
   void initState() {
     super.initState();
     _nameController = TextEditingController(text: widget.task.name);
-    _descriptionController = TextEditingController(text: widget.task.description);
+    _descriptionController =
+        TextEditingController(text: widget.task.description);
     _status = widget.task.status;
     _priority = widget.task.priority;
     _deadline = widget.task.deadline;
@@ -207,9 +207,12 @@ class _EditTaskDialogState extends ConsumerState<EditTaskDialog> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                _deadline?.toString().split(' ')[0] ?? 'Select date',
+                                _deadline?.toString().split(' ')[0] ??
+                                    'Select date',
                                 style: TextStyle(
-                                  color: _deadline == null ? Colors.grey : Colors.black,
+                                  color: _deadline == null
+                                      ? Colors.grey
+                                      : Colors.black,
                                 ),
                               ),
                             ),
@@ -288,7 +291,22 @@ class _EditTaskDialogState extends ConsumerState<EditTaskDialog> {
                     const SizedBox(width: 12),
                     PrimaryButton(
                       title: 'Save',
-                      callback: () {},
+                      callback: () {
+                        final currentState = projectDetailsState.mapOrNull(
+                          loaded: (value) => value,
+                        );
+                        if (currentState != null) {
+                          ref.read(taskDetailsProvider.notifier).updateTask(
+                                name: _nameController.text.trim(),
+                                description: _descriptionController.text.trim(),
+                                status: _status,
+                                priority: _priority,
+                                deadline: _deadline,
+                                assignee: _selectedAssigneeId,
+                              );
+                          Navigator.pop(context);
+                        }
+                      },
                     ),
                   ],
                 ),

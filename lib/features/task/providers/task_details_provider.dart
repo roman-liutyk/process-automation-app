@@ -2,6 +2,8 @@ import 'dart:html' show window;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:process_automation_app/common/utils/enums/task_priority_enum.dart';
+import 'package:process_automation_app/common/utils/enums/task_status_enum.dart';
 import 'package:process_automation_app/features/task/models/task_model.dart';
 import 'package:process_automation_app/features/task/providers/task_provider.dart';
 
@@ -45,12 +47,39 @@ class TaskDetailsNotifier extends StateNotifier<TaskDetailsState> {
     );
   }
 
-  Future<void> updateTask(TaskModel updatedTask) async {
+  Future<void> updateTask({
+    required String name,
+    required String description,
+    required TaskStatusEnum status,
+    required TaskPriorityEnum priority,
+    required DateTime? deadline,
+    required String? assignee,
+  }) async {
     try {
-      state = const TaskDetailsState.loading();
-      final taskRepo = ref.read(taskProvider.notifier);
-      await taskRepo.updateTask(updatedTask: updatedTask);
-      state = TaskDetailsState.loaded(updatedTask);
+      final currentState = state.mapOrNull(
+        loaded: (value) => value,
+      );
+
+      if (currentState != null) {
+        final updatedTask = currentState.task.copyWith(
+          name: name,
+          description: description,
+          status: status,
+          priority: priority,
+          assignee: currentState.task.assignee?.copyWith(id: assignee),
+          deadline: deadline,
+        );
+
+        state = const TaskDetailsState.loading();
+        final taskRepo = ref.read(taskProvider.notifier);
+
+        await taskRepo.updateStatus(updatedTask: updatedTask);
+        await taskRepo.updateAssignee(
+            assignee: assignee, taskId: updatedTask.id);
+        await taskRepo.updatePriority(updatedTask: updatedTask);
+        await taskRepo.updateTask(updatedTask: updatedTask);
+        state = TaskDetailsState.loaded(updatedTask);
+      }
     } catch (e) {
       state = TaskDetailsState.error(e.toString());
     }

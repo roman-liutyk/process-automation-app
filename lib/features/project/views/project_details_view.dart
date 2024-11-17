@@ -128,14 +128,14 @@ class ProjectDetailsView extends ConsumerWidget {
                                     children: [
                                       const SizedBox(width: 4),
                                       IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(
-                                          Icons.edit_outlined,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 4),
-                                      IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          ref
+                                              .read(projectDetailsProvider
+                                                  .notifier)
+                                              .deleteProjectMember(
+                                                loaded.members[index].userId,
+                                              );
+                                        },
                                         icon: const Icon(
                                           Icons.delete_outlined,
                                         ),

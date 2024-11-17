@@ -26,6 +26,10 @@ abstract class ProjectRepository {
     required UserRoleEnum role,
   });
 
+  Future<void> deleteProjectMember({
+    required String id,
+  });
+
   Future<void> deleteProject();
 
   Future<ProjectModel> updateProjectStatus({
@@ -234,8 +238,8 @@ class ProjectRepositoryImpl implements ProjectRepository {
       throw Exception('Token cannot be null');
     }
 
-    final response = await _dio.put(
-      '${AppConstants.baseUrl}/projects/${window.localStorage['project_id']}',
+    final response = await _dio.patch(
+      '${AppConstants.baseUrl}/projects/${window.localStorage['project_id']}/status',
       options: Options(
         headers: {
           'ngrok-skip-browser-warning': 'true',
@@ -243,11 +247,29 @@ class ProjectRepositoryImpl implements ProjectRepository {
           HttpHeaders.authorizationHeader: 'Bearer $token',
         },
       ),
-      data: {
-        'status': status.toString(),
-      },
+      data: '"${status.toString()}"',
     );
 
     return ProjectModel.fromJson(response.data as Json);
+  }
+
+  @override
+  Future<void> deleteProjectMember({required String id}) async {
+    final token = await _firebaseAuth.currentUser?.getIdToken();
+
+    if (token == null) {
+      throw Exception('Token cannot be null');
+    }
+
+    await _dio.delete(
+      '${AppConstants.baseUrl}/project-connections/${window.localStorage['project_id']}/users/$id',
+      options: Options(
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+          'Accept': '*/*',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+      ),
+    );
   }
 }
