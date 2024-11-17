@@ -18,8 +18,9 @@ abstract class TaskRepository {
 
   Future<List<TaskModel>> fetchTasks();
 
-  Future<TaskModel> updateTask({
-    required TaskModel task,
+  Future<TaskModel> updateStatus({
+    required String id,
+    required TaskStatusEnum status,
   });
 }
 
@@ -93,10 +94,11 @@ class TaskRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<TaskModel> updateTask({
-    required TaskModel task,
+  Future<TaskModel> updateStatus({
+    required String id,
+    required TaskStatusEnum status,
   }) async {
-    final Uri url = Uri.parse('${AppConstants.baseUrl}/tasks/${task.id}');
+    final Uri url = Uri.parse('${AppConstants.baseUrl}/tasks/$id/status');
 
     final token = await _firebaseAuth.currentUser?.getIdToken();
 
@@ -111,7 +113,9 @@ class TaskRepositoryImpl implements TaskRepository {
           HttpHeaders.authorizationHeader: 'Bearer $token',
         },
       ),
-      data: task.toJson(),
+      data: {
+        'status': status.toString(),
+      },
     );
 
     return TaskModel.fromJson(response.data);
