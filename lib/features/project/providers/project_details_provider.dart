@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:process_automation_app/common/utils/enums/user_role_enum.dart';
 import 'package:process_automation_app/features/project/models/project_member_model.dart';
 import 'package:process_automation_app/features/project/models/project_model.dart';
 import 'package:process_automation_app/features/project/repository/project_repository.dart';
@@ -36,7 +37,10 @@ class ProjectDetailsNotifier extends StateNotifier<ProjectDetailsState> {
     state = ProjectDetailsState.loaded(project: project, members: members);
   }
 
-  Future<void> addProjectMember() async {
+  Future<void> addProjectMember({
+    required String email,
+    required UserRoleEnum role,
+  }) async {
     final currentState = state.mapOrNull(
       loaded: (value) => value,
     );
@@ -45,7 +49,10 @@ class ProjectDetailsNotifier extends StateNotifier<ProjectDetailsState> {
       try {
         state = const ProjectDetailsState.loading();
 
-        await _projectRepository.addProjectMember();
+        await _projectRepository.addProjectMember(
+          email: email,
+          role: role,
+        );
 
         final members = await _projectRepository.fetchProjectMembers();
 

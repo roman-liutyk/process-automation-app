@@ -20,7 +20,10 @@ abstract class ProjectRepository {
 
   Future<List<ProjectMemberModel>> fetchProjectMembers();
 
-  Future<void> addProjectMember();
+  Future<void> addProjectMember({
+    required String email,
+    required UserRoleEnum role,
+  });
 }
 
 /// An implementation of the [ProjectRepository] interface.
@@ -168,8 +171,29 @@ class ProjectRepositoryImpl implements ProjectRepository {
   }
 
   @override
-  Future<void> addProjectMember() {
-    // TODO: implement addProjectMember
-    throw UnimplementedError();
+  Future<void> addProjectMember({
+    required String email,
+    required UserRoleEnum role,
+  }) async {
+    final token = await _firebaseAuth.currentUser?.getIdToken();
+
+    if (token == null) {
+      throw Exception('Token cannot be null');
+    }
+
+    await _dio.post(
+      '${AppConstants.baseUrl}/project-connections/${window.localStorage['project_id']}',
+      options: Options(
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+          'Accept': '*/*',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+      ),
+      // data: {
+      //   'email': email,
+      //   'role': role.toString(),
+      // },
+    );
   }
 }
