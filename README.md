@@ -24,6 +24,7 @@ cd process-automation-app
 
 ```bash
 flutter pub get
+dart run build_runner build
 ```
 
 3. Configure Firebase:
