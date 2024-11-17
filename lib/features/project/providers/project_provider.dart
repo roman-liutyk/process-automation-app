@@ -19,7 +19,9 @@ class ProjectProvider extends StateNotifier<List<ProjectModel>?> {
     required ProjectStatusEnum status,
   }) async {
     try {
-      final createdProject = await _projectRepository.createProject(
+      state = null;
+
+      await _projectRepository.createProject(
         ProjectModel(
           id: '',
           name: name,
@@ -40,6 +42,7 @@ class ProjectProvider extends StateNotifier<List<ProjectModel>?> {
 
       state = projects;
     } catch (e) {
+      state = [];
       rethrow;
     }
   }

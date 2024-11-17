@@ -46,6 +46,7 @@ final GoRouter appRouter = GoRouter(
         if (user == null) {
           return '/sign_in';
         }
+        return null;
       },
       pageBuilder: (context, state) => const NoTransitionPage(
         child: ProjectListView(),
@@ -54,7 +55,8 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: ':uuid/details',
           pageBuilder: (context, state) {
-            window.localStorage['project_id'] = state.pathParameters['uuid'] as String;
+            window.localStorage['project_id'] =
+                state.pathParameters['uuid'] as String;
             return const NoTransitionPage(
               child: ProjectDetailsView(),
             );
@@ -63,7 +65,8 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: ':uuid/tasks',
           pageBuilder: (context, state) {
-            window.localStorage['project_id'] = state.pathParameters['uuid'] as String;
+            window.localStorage['project_id'] =
+                state.pathParameters['uuid'] as String;
 
             return const NoTransitionPage(
               child: TaskBoardView(),

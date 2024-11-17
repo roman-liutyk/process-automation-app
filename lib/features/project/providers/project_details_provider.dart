@@ -13,6 +13,7 @@ class ProjectDetailsState with _$ProjectDetailsState {
   const factory ProjectDetailsState.loaded({
     required ProjectModel project,
     required List<ProjectMemberModel> members,
+    String? errorMessage,
   }) = _Loaded;
   const factory ProjectDetailsState.loading() = _Loading;
 }
@@ -33,6 +34,26 @@ class ProjectDetailsNotifier extends StateNotifier<ProjectDetailsState> {
     final members = await _projectRepository.fetchProjectMembers();
 
     state = ProjectDetailsState.loaded(project: project, members: members);
+  }
+
+  Future<void> addProjectMember() async {
+    final currentState = state.mapOrNull(
+      loaded: (value) => value,
+    );
+
+    if (currentState != null) {
+      try {
+        state = const ProjectDetailsState.loading();
+
+        await _projectRepository.addProjectMember();
+
+        final members = await _projectRepository.fetchProjectMembers();
+
+        state = currentState.copyWith(members: members);
+      } catch (e) {
+        state = currentState.copyWith(errorMessage: 'Cannot add a member');
+      }
+    }
   }
 }
 

@@ -18,22 +18,24 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ProjectDetailsState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            ProjectModel project, List<ProjectMemberModel> members)
+    required TResult Function(ProjectModel project,
+            List<ProjectMemberModel> members, String? errorMessage)
         loaded,
     required TResult Function() loading,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ProjectModel project, List<ProjectMemberModel> members)?
+    TResult? Function(ProjectModel project, List<ProjectMemberModel> members,
+            String? errorMessage)?
         loaded,
     TResult? Function()? loading,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ProjectModel project, List<ProjectMemberModel> members)?
+    TResult Function(ProjectModel project, List<ProjectMemberModel> members,
+            String? errorMessage)?
         loaded,
     TResult Function()? loading,
     required TResult orElse(),
@@ -87,7 +89,10 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({ProjectModel project, List<ProjectMemberModel> members});
+  $Res call(
+      {ProjectModel project,
+      List<ProjectMemberModel> members,
+      String? errorMessage});
 }
 
 /// @nodoc
@@ -105,6 +110,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
   $Res call({
     Object? project = null,
     Object? members = null,
+    Object? errorMessage = freezed,
   }) {
     return _then(_$LoadedImpl(
       project: null == project
@@ -115,6 +121,10 @@ class __$$LoadedImplCopyWithImpl<$Res>
           ? _value._members
           : members // ignore: cast_nullable_to_non_nullable
               as List<ProjectMemberModel>,
+      errorMessage: freezed == errorMessage
+          ? _value.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -123,7 +133,9 @@ class __$$LoadedImplCopyWithImpl<$Res>
 
 class _$LoadedImpl implements _Loaded {
   const _$LoadedImpl(
-      {required this.project, required final List<ProjectMemberModel> members})
+      {required this.project,
+      required final List<ProjectMemberModel> members,
+      this.errorMessage})
       : _members = members;
 
   @override
@@ -137,8 +149,11 @@ class _$LoadedImpl implements _Loaded {
   }
 
   @override
+  final String? errorMessage;
+
+  @override
   String toString() {
-    return 'ProjectDetailsState.loaded(project: $project, members: $members)';
+    return 'ProjectDetailsState.loaded(project: $project, members: $members, errorMessage: $errorMessage)';
   }
 
   @override
@@ -147,12 +162,14 @@ class _$LoadedImpl implements _Loaded {
         (other.runtimeType == runtimeType &&
             other is _$LoadedImpl &&
             (identical(other.project, project) || other.project == project) &&
-            const DeepCollectionEquality().equals(other._members, _members));
+            const DeepCollectionEquality().equals(other._members, _members) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, project, const DeepCollectionEquality().hash(_members));
+  int get hashCode => Object.hash(runtimeType, project,
+      const DeepCollectionEquality().hash(_members), errorMessage);
 
   /// Create a copy of ProjectDetailsState
   /// with the given fields replaced by the non-null parameter values.
@@ -165,34 +182,36 @@ class _$LoadedImpl implements _Loaded {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            ProjectModel project, List<ProjectMemberModel> members)
+    required TResult Function(ProjectModel project,
+            List<ProjectMemberModel> members, String? errorMessage)
         loaded,
     required TResult Function() loading,
   }) {
-    return loaded(project, members);
+    return loaded(project, members, errorMessage);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ProjectModel project, List<ProjectMemberModel> members)?
+    TResult? Function(ProjectModel project, List<ProjectMemberModel> members,
+            String? errorMessage)?
         loaded,
     TResult? Function()? loading,
   }) {
-    return loaded?.call(project, members);
+    return loaded?.call(project, members, errorMessage);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ProjectModel project, List<ProjectMemberModel> members)?
+    TResult Function(ProjectModel project, List<ProjectMemberModel> members,
+            String? errorMessage)?
         loaded,
     TResult Function()? loading,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(project, members);
+      return loaded(project, members, errorMessage);
     }
     return orElse();
   }
@@ -232,10 +251,12 @@ class _$LoadedImpl implements _Loaded {
 abstract class _Loaded implements ProjectDetailsState {
   const factory _Loaded(
       {required final ProjectModel project,
-      required final List<ProjectMemberModel> members}) = _$LoadedImpl;
+      required final List<ProjectMemberModel> members,
+      final String? errorMessage}) = _$LoadedImpl;
 
   ProjectModel get project;
   List<ProjectMemberModel> get members;
+  String? get errorMessage;
 
   /// Create a copy of ProjectDetailsState
   /// with the given fields replaced by the non-null parameter values.
@@ -285,8 +306,8 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            ProjectModel project, List<ProjectMemberModel> members)
+    required TResult Function(ProjectModel project,
+            List<ProjectMemberModel> members, String? errorMessage)
         loaded,
     required TResult Function() loading,
   }) {
@@ -296,7 +317,8 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(ProjectModel project, List<ProjectMemberModel> members)?
+    TResult? Function(ProjectModel project, List<ProjectMemberModel> members,
+            String? errorMessage)?
         loaded,
     TResult? Function()? loading,
   }) {
@@ -306,7 +328,8 @@ class _$LoadingImpl implements _Loading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(ProjectModel project, List<ProjectMemberModel> members)?
+    TResult Function(ProjectModel project, List<ProjectMemberModel> members,
+            String? errorMessage)?
         loaded,
     TResult Function()? loading,
     required TResult orElse(),
