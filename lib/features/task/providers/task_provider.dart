@@ -64,7 +64,7 @@ class TaskNotifier extends StateNotifier<TaskState> {
     }
   }
 
-  Future<void> updateTask({
+  Future<void> updateStatus({
     required TaskModel updatedTask,
   }) async {
     final currentState = state.mapOrNull(
@@ -74,8 +74,9 @@ class TaskNotifier extends StateNotifier<TaskState> {
     if (currentState != null) {
       state = const TaskState.loading();
 
-      final task = await _taskRepository.updateTask(
-        task: updatedTask,
+      final task = await _taskRepository.updateStatus(
+        id: updatedTask.id,
+        status: updatedTask.status,
       );
 
       final List<TaskModel> updatedTasks = currentState.tasks

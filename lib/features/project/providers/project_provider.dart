@@ -46,6 +46,17 @@ class ProjectProvider extends StateNotifier<List<ProjectModel>?> {
       rethrow;
     }
   }
+
+  Future<void> deleteProject() async {
+    try {
+      state = null;
+      await _projectRepository.deleteProject();
+
+      fetchProjects();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
 
 final projectProvider = StateNotifierProvider.autoDispose<ProjectProvider, List<ProjectModel>?>(

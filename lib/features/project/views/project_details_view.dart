@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:process_automation_app/common/utils/enums/user_role_enum.dart';
 import 'package:process_automation_app/features/project/providers/project_details_provider.dart';
+import 'package:process_automation_app/features/project/views/widgets/add_project_member_dialog.dart';
 import 'package:process_automation_app/features/project/views/widgets/project_details_header.dart';
 import 'package:process_automation_app/shared/widgets/primary_button.dart';
 import 'package:process_automation_app/shared/widgets/primary_container.dart';
@@ -11,6 +13,29 @@ class ProjectDetailsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(projectDetailsProvider);
+
+    ref.listen<ProjectDetailsState>(
+      projectDetailsProvider,
+      (previousState, currentState) {
+        currentState.whenOrNull(
+          loaded: (project, members, errorMessage) {
+            if (errorMessage != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: const Color.fromRGBO(244, 67, 54, 1),
+                  content: Text(
+                    errorMessage,
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              );
+            }
+          },
+        );
+      },
+    );
 
     return Scaffold(
       backgroundColor: const Color(0xFFF9FAFB),
@@ -47,7 +72,13 @@ class ProjectDetailsView extends ConsumerWidget {
                         const SizedBox(width: 8),
                         PrimaryButton(
                           title: 'Add',
-                          callback: () {},
+                          callback: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  const AddProjectMemberDialog(),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -89,20 +120,28 @@ class ProjectDetailsView extends ConsumerWidget {
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 4),
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.edit_outlined,
-                              ),
-                            ),
-                            const SizedBox(width: 4),
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.delete_outlined,
-                              ),
-                            ),
+                            loaded.project.id == loaded.members[index].userId ||
+                                    loaded.members[index].role ==
+                                        UserRoleEnum.owner
+                                ? const SizedBox.shrink()
+                                : Row(
+                                    children: [
+                                      const SizedBox(width: 4),
+                                      IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(
+                                          Icons.edit_outlined,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 4),
+                                      IconButton(
+                                        onPressed: () {},
+                                        icon: const Icon(
+                                          Icons.delete_outlined,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                           ],
                         ),
                       ),
@@ -110,7 +149,7 @@ class ProjectDetailsView extends ConsumerWidget {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
         loading: (loading) => const Center(

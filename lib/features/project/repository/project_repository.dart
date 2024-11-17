@@ -20,7 +20,12 @@ abstract class ProjectRepository {
 
   Future<List<ProjectMemberModel>> fetchProjectMembers();
 
-  Future<void> addProjectMember();
+  Future<void> addProjectMember({
+    required String email,
+    required UserRoleEnum role,
+  });
+
+  Future<void> deleteProject();
 }
 
 /// An implementation of the [ProjectRepository] interface.
@@ -168,8 +173,49 @@ class ProjectRepositoryImpl implements ProjectRepository {
   }
 
   @override
-  Future<void> addProjectMember() {
-    // TODO: implement addProjectMember
-    throw UnimplementedError();
+  Future<void> addProjectMember({
+    required String email,
+    required UserRoleEnum role,
+  }) async {
+    final token = await _firebaseAuth.currentUser?.getIdToken();
+
+    if (token == null) {
+      throw Exception('Token cannot be null');
+    }
+
+    await _dio.post(
+      '${AppConstants.baseUrl}/project-connections/${window.localStorage['project_id']}',
+      data: {
+        'userEmail': email,
+        'userRole': role.toString(),
+      },
+      options: Options(
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+          'Accept': '*/*',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+      ),
+    );
+  }
+
+  @override
+  Future<void> deleteProject() async {
+    final token = await _firebaseAuth.currentUser?.getIdToken();
+
+    if (token == null) {
+      throw Exception('Token cannot be null');
+    }
+
+    await _dio.delete(
+      '${AppConstants.baseUrl}/projects/${window.localStorage['project_id']}',
+      options: Options(
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+          'Accept': '*/*',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+      ),
+    );
   }
 }

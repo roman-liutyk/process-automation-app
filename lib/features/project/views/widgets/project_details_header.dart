@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:process_automation_app/common/utils/enums/project_status_enum.dart';
 import 'package:process_automation_app/features/project/models/project_model.dart';
+import 'package:process_automation_app/features/project/providers/project_provider.dart';
 
 class ProjectDetailsHeader extends StatelessWidget {
   const ProjectDetailsHeader({
@@ -43,12 +44,28 @@ class ProjectDetailsHeader extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 4),
-                Text(
-                  'Projects / ${project.name}',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[500],
+                Expanded(
+                  child: Text(
+                    'Projects / ${project.name}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[500],
+                    ),
                   ),
+                ),
+                const SizedBox(width: 4),
+                Consumer(
+                  builder: (context, ref, _) {
+                    return IconButton(
+                      onPressed: () {
+                        ref.read(projectProvider.notifier).deleteProject();
+                        context.pop();
+                      },
+                      icon: const Icon(
+                        Icons.delete_outlined,
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -74,7 +91,7 @@ class ProjectDetailsHeader extends StatelessWidget {
             ),
             DecoratedBox(
               decoration: BoxDecoration(
-                color: ProjectStatusEnum.values.first.backgroundColor,
+                color: project.status.backgroundColor,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(4),
                 ),
@@ -85,10 +102,10 @@ class ProjectDetailsHeader extends StatelessWidget {
                   vertical: 4,
                 ),
                 child: Text(
-                  ProjectStatusEnum.values.first.title,
+                  project.status.title,
                   style: TextStyle(
                     fontSize: 14,
-                    color: ProjectStatusEnum.values.first.foregroundColor,
+                    color: project.status.foregroundColor,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
