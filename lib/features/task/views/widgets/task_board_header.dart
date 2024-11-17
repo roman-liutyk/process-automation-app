@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:process_automation_app/features/task/views/widgets/create_task_dialog.dart';
 import 'package:process_automation_app/shared/widgets/primary_button.dart';
 import 'package:process_automation_app/shared/widgets/primary_text_field.dart';
 
@@ -19,12 +20,15 @@ class TaskBoardHeader extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.symmetric(
+          vertical: 24,
+          horizontal: 36,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Kanban board',
+              'Task board',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -42,7 +46,12 @@ class TaskBoardHeader extends StatelessWidget {
             ),
             PrimaryButton(
               title: 'Add task',
-              callback: () {},
+              callback: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => const CreateTaskDialog(),
+                );
+              },
             ),
             const SizedBox(
               height: 16,

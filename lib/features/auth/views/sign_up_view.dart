@@ -71,7 +71,12 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
             : SingleChildScrollView(
                 padding: const EdgeInsets.all(20),
                 child: PrimaryContainer(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.only(
+                    top: 20,
+                    left: 20,
+                    right: 20,
+                    bottom: 8,
+                  ),
                   child: SizedBox(
                     width: 288,
                     child: Form(
@@ -86,7 +91,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                             validator: (value) => Validators.name(value, 'First name'),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 16,
                           ),
                           PrimaryTextField(
                             controller: _lastNameController,
@@ -94,7 +99,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                             validator: (value) => Validators.name(value, 'Last name'),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 16,
                           ),
                           PrimaryTextField(
                             controller: _emailController,
@@ -102,7 +107,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                             validator: Validators.email,
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 16,
                           ),
                           PrimaryTextField(
                             controller: _passwordController,
@@ -111,7 +116,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                             validator: Validators.password,
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 16,
                           ),
                           PrimaryTextField(
                             controller: _confirmPassword,
@@ -123,14 +128,14 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                             ),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 16,
                           ),
                           PrimaryButton(
                             title: 'Sign Up',
                             callback: _submitForm,
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 11,
                           ),
                           Row(
                             mainAxisSize: MainAxisSize.min,

@@ -3,28 +3,27 @@ import 'package:process_automation_app/common/utils/typedefs.dart';
 
 class ProjectModel {
   const ProjectModel({
-    required this.uuid,
+    required this.id,
     required this.name,
     required this.description,
-    required this.projectStatus,
+    required this.status,
   });
 
   factory ProjectModel.fromJson(Json json) => ProjectModel(
-        uuid: json['uuid'] as String,
+        id: json['id'] as String,
         name: json['name'] as String,
         description: json['description'] as String,
-        projectStatus: ProjectStatusEnum.fromString(json['project_status'] as String),
+        status: ProjectStatusEnum.fromString(json['status'] as String),
       );
 
-  final String uuid;
+  final String id;
   final String name;
   final String description;
-  final ProjectStatusEnum projectStatus;
+  final ProjectStatusEnum status;
 
   Json toJson() => {
-        'uuid': uuid,
         'name': name,
         'description': description,
-        'project_status': projectStatus,
+        'status': status.toString(),
       };
 }

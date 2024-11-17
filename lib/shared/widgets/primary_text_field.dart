@@ -8,6 +8,7 @@ class PrimaryTextField extends StatelessWidget {
     this.obscureText = false,
     this.prefix,
     this.validator,
+    this.maxLines = 1,
   });
 
   final TextEditingController controller;
@@ -15,6 +16,7 @@ class PrimaryTextField extends StatelessWidget {
   final bool obscureText;
   final Widget? prefix;
   final String? Function(String?)? validator;
+  final int maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class PrimaryTextField extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       validator: validator,
+      maxLines: maxLines,
       style: const TextStyle(
         fontSize: 16,
       ),
@@ -32,7 +35,7 @@ class PrimaryTextField extends StatelessWidget {
         ),
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(8),
+            Radius.circular(12),
           ),
           borderSide: BorderSide(
             color: Color(0xFFF9FAFA),
