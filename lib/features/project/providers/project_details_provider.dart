@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:process_automation_app/features/project/models/project_member_model.dart';
@@ -40,6 +41,7 @@ final projectDetailsProvider = StateNotifierProvider.autoDispose<
   (ref) => ProjectDetailsNotifier(
     projectRepository: ProjectRepositoryImpl(
       dio: Dio(),
+      firebaseAuth: FirebaseAuth.instance,
     ),
   )..fetchProject(),
 );

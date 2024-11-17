@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -39,17 +38,10 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    final UserCredential credentials =
-        await _firebaseAuth.signInWithEmailAndPassword(
+    await _firebaseAuth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
-
-    final String? token = await credentials.user?.getIdToken();
-
-    if (token != null) {
-      window.localStorage['auth_token'] = token;
-    }
   }
 
   @override
@@ -71,8 +63,6 @@ class AuthRepositoryImpl implements AuthRepository {
     final String? token = await _firebaseAuth.currentUser?.getIdToken();
 
     if (token != null) {
-      window.localStorage['auth_token'] = token;
-
       await _createUser(token, _firebaseAuth.currentUser!);
     }
   }
@@ -87,8 +77,6 @@ class AuthRepositoryImpl implements AuthRepository {
     final String? token = await credentials.user?.getIdToken();
 
     if (token != null) {
-      window.localStorage['auth_token'] = token;
-
       await _createUser(token, credentials.user!);
     }
   }
@@ -103,10 +91,6 @@ class AuthRepositoryImpl implements AuthRepository {
     final String? token = await credentials.user?.getIdToken();
 
     if (token != null) {
-      window.localStorage['auth_token'] = token;
-
-      print(token);
-
       await _createUser(token, credentials.user!);
     }
   }
