@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:process_automation_app/common/utils/validators.dart';
 import 'package:process_automation_app/features/auth/providers/auth_provider.dart';
+import 'package:process_automation_app/features/profile/providers/profile_provider.dart';
 import 'package:process_automation_app/shared/widgets/primary_button.dart';
 import 'package:process_automation_app/shared/widgets/primary_container.dart';
 import 'package:process_automation_app/shared/widgets/primary_text_field.dart';
@@ -38,6 +39,20 @@ class _SignInViewState extends ConsumerState<SignInView> {
       authProvider,
       (previousState, currentState) {
         currentState.whenOrNull(
+          authenticated: (_) {
+            final pendingUpdate = ref.read(profileProvider.notifier).pendingUpdate;
+            if (pendingUpdate != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  backgroundColor: Colors.green,
+                  content: Text(
+                    'Password changed successfully',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              );
+            }
+          },
           unauthenticated: (errorMessage) {
             if (errorMessage != null) {
               ScaffoldMessenger.of(context).showSnackBar(

@@ -67,8 +67,7 @@ class TaskListItem extends StatelessWidget {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                       child: Text(
                         task.priority.title,
                         style: const TextStyle(
@@ -133,8 +132,7 @@ class TaskListItem extends StatelessWidget {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                       child: Text(
                         task.priority.title,
                         style: const TextStyle(

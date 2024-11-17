@@ -71,8 +71,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> signInWithGoogle() async {
     GoogleAuthProvider authProvider = GoogleAuthProvider();
 
-    final UserCredential credentials =
-        await _firebaseAuth.signInWithPopup(authProvider);
+    final UserCredential credentials = await _firebaseAuth.signInWithPopup(authProvider);
 
     final String? token = await credentials.user?.getIdToken();
 
@@ -85,8 +84,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> signInWithGitHub() async {
     final OAuthProvider provider = OAuthProvider('github.com');
 
-    final UserCredential credentials =
-        await _firebaseAuth.signInWithPopup(provider);
+    final UserCredential credentials = await _firebaseAuth.signInWithPopup(provider);
 
     final String? token = await credentials.user?.getIdToken();
 
