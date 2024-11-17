@@ -35,7 +35,8 @@ class ProjectDetailsNotifier extends StateNotifier<ProjectDetailsState> {
 
     final members = await _projectRepository.fetchProjectMembers();
 
-    state = ProjectDetailsState.loaded(project: project, members: members);
+    state = ProjectDetailsState.loaded(
+        project: project, members: members, errorMessage: null);
   }
 
   Future<void> addProjectMember({
@@ -57,7 +58,7 @@ class ProjectDetailsNotifier extends StateNotifier<ProjectDetailsState> {
 
         final members = await _projectRepository.fetchProjectMembers();
 
-        state = currentState.copyWith(members: members);
+        state = currentState.copyWith(members: members, errorMessage: null);
       } catch (e) {
         state = currentState.copyWith(errorMessage: 'Cannot add a member');
       }
@@ -79,7 +80,7 @@ class ProjectDetailsNotifier extends StateNotifier<ProjectDetailsState> {
 
         final members = await _projectRepository.fetchProjectMembers();
 
-        state = currentState.copyWith(members: members);
+        state = currentState.copyWith(members: members, errorMessage: null);
       } catch (e) {
         state = currentState.copyWith(errorMessage: 'Cannot delete a member');
       }
@@ -103,7 +104,7 @@ class ProjectDetailsNotifier extends StateNotifier<ProjectDetailsState> {
 
         final project = await _projectRepository.fetchProject();
 
-        state = currentState.copyWith(project: project);
+        state = currentState.copyWith(project: project, errorMessage: null);
       } catch (e) {
         state = currentState.copyWith(errorMessage: 'Cannot change the status');
       }
