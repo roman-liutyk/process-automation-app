@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:process_automation_app/features/task/views/widgets/create_task_dialog.dart';
 import 'package:process_automation_app/shared/widgets/primary_button.dart';
 import 'package:process_automation_app/shared/widgets/primary_text_field.dart';
 
@@ -45,7 +46,12 @@ class TaskBoardHeader extends StatelessWidget {
             ),
             PrimaryButton(
               title: 'Add task',
-              callback: () {},
+              callback: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => const CreateTaskDialog(),
+                );
+              },
             ),
             const SizedBox(
               height: 16,
