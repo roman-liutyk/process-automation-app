@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:process_automation_app/common/utils/app_constants.dart';
+import 'package:process_automation_app/common/utils/enums/project_status_enum.dart';
 import 'package:process_automation_app/common/utils/enums/user_role_enum.dart';
 import 'package:process_automation_app/common/utils/typedefs.dart';
 import 'package:process_automation_app/features/auth/models/user_model.dart';
@@ -26,6 +27,10 @@ abstract class ProjectRepository {
   });
 
   Future<void> deleteProject();
+
+  Future<ProjectModel> updateProjectStatus({
+    required ProjectStatusEnum status,
+  });
 }
 
 /// An implementation of the [ProjectRepository] interface.
@@ -217,5 +222,32 @@ class ProjectRepositoryImpl implements ProjectRepository {
         },
       ),
     );
+  }
+
+  @override
+  Future<ProjectModel> updateProjectStatus({
+    required ProjectStatusEnum status,
+  }) async {
+    final token = await _firebaseAuth.currentUser?.getIdToken();
+
+    if (token == null) {
+      throw Exception('Token cannot be null');
+    }
+
+    final response = await _dio.put(
+      '${AppConstants.baseUrl}/projects/${window.localStorage['project_id']}',
+      options: Options(
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+          'Accept': '*/*',
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+      ),
+      data: {
+        'status': status.toString(),
+      },
+    );
+
+    return ProjectModel.fromJson(response.data as Json);
   }
 }

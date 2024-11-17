@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:process_automation_app/common/utils/enums/project_status_enum.dart';
 import 'package:process_automation_app/common/utils/enums/user_role_enum.dart';
 import 'package:process_automation_app/features/project/models/project_member_model.dart';
 import 'package:process_automation_app/features/project/models/project_model.dart';
@@ -59,6 +60,30 @@ class ProjectDetailsNotifier extends StateNotifier<ProjectDetailsState> {
         state = currentState.copyWith(members: members);
       } catch (e) {
         state = currentState.copyWith(errorMessage: 'Cannot add a member');
+      }
+    }
+  }
+
+  Future<void> updateProjectStatus({
+    required ProjectStatusEnum status,
+  }) async {
+    final currentState = state.mapOrNull(
+      loaded: (value) => value,
+    );
+
+    if (currentState != null) {
+      try {
+        state = const ProjectDetailsState.loading();
+
+        await _projectRepository.updateProjectStatus(
+          status: status,
+        );
+
+        final project = await _projectRepository.fetchProject();
+
+        state = currentState.copyWith(project: project);
+      } catch (e) {
+        state = currentState.copyWith(errorMessage: 'Cannot change the status');
       }
     }
   }

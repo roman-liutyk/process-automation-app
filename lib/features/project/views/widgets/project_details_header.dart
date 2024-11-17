@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:process_automation_app/common/utils/enums/project_status_enum.dart';
 import 'package:process_automation_app/features/project/models/project_model.dart';
+import 'package:process_automation_app/features/project/providers/project_details_provider.dart';
 import 'package:process_automation_app/features/project/providers/project_provider.dart';
 
-class ProjectDetailsHeader extends StatelessWidget {
+class ProjectDetailsHeader extends StatefulWidget {
   const ProjectDetailsHeader({
     super.key,
     required this.project,
@@ -12,6 +14,11 @@ class ProjectDetailsHeader extends StatelessWidget {
 
   final ProjectModel project;
 
+  @override
+  State<ProjectDetailsHeader> createState() => _ProjectDetailsHeaderState();
+}
+
+class _ProjectDetailsHeaderState extends State<ProjectDetailsHeader> {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
@@ -46,7 +53,7 @@ class ProjectDetailsHeader extends StatelessWidget {
                 const SizedBox(width: 4),
                 Expanded(
                   child: Text(
-                    'Projects / ${project.name}',
+                    'Projects / ${widget.project.name}',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.grey[500],
@@ -73,14 +80,14 @@ class ProjectDetailsHeader extends StatelessWidget {
               height: 24,
             ),
             Text(
-              project.name,
+              widget.project.name,
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
-              project.description,
+              widget.project.description,
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[500],
@@ -91,7 +98,7 @@ class ProjectDetailsHeader extends StatelessWidget {
             ),
             DecoratedBox(
               decoration: BoxDecoration(
-                color: project.status.backgroundColor,
+                color: widget.project.status.backgroundColor,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(4),
                 ),
@@ -102,15 +109,45 @@ class ProjectDetailsHeader extends StatelessWidget {
                   vertical: 4,
                 ),
                 child: Text(
-                  project.status.title,
+                  widget.project.status.title,
                   style: TextStyle(
                     fontSize: 14,
-                    color: project.status.foregroundColor,
+                    color: widget.project.status.foregroundColor,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
             ),
+            const SizedBox(
+              height: 16,
+            ),
+            Consumer(builder: (context, ref, _) {
+              return DropdownButton(
+                value: widget.project.status,
+                items: List.generate(
+                  ProjectStatusEnum.values.length,
+                  (index) {
+                    return DropdownMenuItem(
+                      value: ProjectStatusEnum.values[index],
+                      child: Text(
+                        ProjectStatusEnum.values[index].title,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                onChanged: (value) {
+                  if (value != null) {
+                    ref
+                        .read(projectDetailsProvider.notifier)
+                        .updateProjectStatus(status: value);
+                  }
+                },
+              );
+            }),
           ],
         ),
       ),
