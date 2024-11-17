@@ -11,6 +11,12 @@ Before running the application, make sure you have the following installed:
 - A code editor (VS Code, IntelliJ IDEA, or Android Studio)
 - Git
 
+## Backend Information
+
+The backend API for this application is hosted on Microsoft Azure and is maintained in a separate repository. You don't need to run the backend locally as it's already deployed and accessible. The API endpoint is configured in `lib/common/utils/app_constants.dart`.
+
+The backend repository contains the API implementation and database configurations. If you need to modify the backend, please refer to the separate backend repository.
+
 ## Setup Instructions
 
 1. Clone the repository:
@@ -68,14 +74,20 @@ dart run build_runner build
 Run the application with a specific port:
 
 ```bash
-flutter run -d chrome --web-port 5000 --web-browser-flag --disable-web-security  # Replace 5000 with your desired port
+flutter run -d chrome --web-port 5000 --web-browser-flag --disable-web-security # Replace 5000 with your desired port
+```
+
+Or use the default port:
+
+```bash
+flutter run -d chrome
 ```
 
 ## Important Notes
 
-- The application requires an active internet connection for Firebase authentication
+- The application requires an active internet connection for Firebase authentication and API access
 - Make sure no other application is using the specified port
-- The backend API URL is configured in `lib/common/utils/app_constants.dart`. Update it according to your backend setup
+- The backend API URL is configured in `lib/common/utils/app_constants.dart`
 - For development purposes, it's recommended to use Chrome as the target browser
 
 ## Features
