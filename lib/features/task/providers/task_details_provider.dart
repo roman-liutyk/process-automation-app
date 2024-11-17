@@ -1,4 +1,5 @@
 import 'dart:html' show window;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:process_automation_app/features/task/models/task_model.dart';
@@ -46,6 +47,7 @@ class TaskDetailsNotifier extends StateNotifier<TaskDetailsState> {
 
   Future<void> updateTask(TaskModel updatedTask) async {
     try {
+      state = const TaskDetailsState.loading();
       final taskRepo = ref.read(taskProvider.notifier);
       await taskRepo.updateTask(updatedTask: updatedTask);
       state = TaskDetailsState.loaded(updatedTask);
@@ -55,6 +57,7 @@ class TaskDetailsNotifier extends StateNotifier<TaskDetailsState> {
   }
 }
 
-final taskDetailsProvider = StateNotifierProvider.autoDispose<TaskDetailsNotifier, TaskDetailsState>(
+final taskDetailsProvider =
+    StateNotifierProvider.autoDispose<TaskDetailsNotifier, TaskDetailsState>(
   (ref) => TaskDetailsNotifier(ref),
 );
