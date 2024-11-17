@@ -14,6 +14,7 @@ class PrimaryButton extends StatelessWidget {
     this.height,
     this.textColor = Colors.white,
     this.image,
+    this.icon,
   });
 
   final String title;
@@ -27,6 +28,7 @@ class PrimaryButton extends StatelessWidget {
   final double? height;
   final Color? textColor;
   final Widget? image;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -77,13 +79,26 @@ class PrimaryButton extends StatelessWidget {
                     ],
                   ),
                 )
-              : Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: textColor,
-                  ),
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (icon != null)
+                      Icon(
+                        icon,
+                        color: textColor,
+                        size: 24,
+                      ),
+                    if (icon != null) const SizedBox(width: 8),
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: textColor,
+                      ),
+                    ),
+                  ],
                 ),
         ),
       ),

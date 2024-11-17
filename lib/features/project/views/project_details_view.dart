@@ -26,6 +26,7 @@ class ProjectDetailsView extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 36,
+                vertical: 24,
               ),
               child: PrimaryContainer(
                 padding: const EdgeInsets.all(20),

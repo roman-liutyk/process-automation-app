@@ -42,9 +42,7 @@ class ProjectDetailsHeader extends StatelessWidget {
                     Icons.arrow_back_outlined,
                   ),
                 ),
-                const SizedBox(
-                  width: 36,
-                ),
+                const SizedBox(width: 4),
                 Text(
                   'Projects / ${project.name}',
                   style: TextStyle(
