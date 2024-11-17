@@ -12,7 +12,7 @@ class TaskListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Draggable(
-      data: task.uuid,
+      data: task.id,
       feedback: Material(
         child: SizedBox(
           width: 268,
@@ -46,7 +46,7 @@ class TaskListItem extends StatelessWidget {
                     height: 4,
                   ),
                   Text(
-                    task.description,
+                    task.description ?? '',
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -108,7 +108,7 @@ class TaskListItem extends StatelessWidget {
                   height: 4,
                 ),
                 Text(
-                  task.description,
+                  task.description ?? '',
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

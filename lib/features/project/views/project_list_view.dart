@@ -14,26 +14,30 @@ class ProjectListView extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF9FAFB),
-      body: state == null
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : state.isEmpty
-              ? const Center(
-                  child: Text(
-                    'You have no projects',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
+      body: CustomScrollView(
+        slivers: [
+          const SliverToBoxAdapter(
+            child: ProjectListHeader(),
+          ),
+          state == null
+              ? const SliverFillRemaining(
+                  child: Center(
+                    child: CircularProgressIndicator(),
                   ),
                 )
-              : CustomScrollView(
-                  slivers: [
-                    const SliverToBoxAdapter(
-                      child: ProjectListHeader(),
-                    ),
-                    SliverPadding(
+              : state.isEmpty
+                  ? const SliverFillRemaining(
+                      child: Center(
+                        child: Text(
+                          'You have no projects',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    )
+                  : SliverPadding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 36,
                         vertical: 24,
@@ -59,8 +63,8 @@ class ProjectListView extends ConsumerWidget {
                         ]),
                       ),
                     ),
-                  ],
-                ),
+        ],
+      ),
     );
   }
 }

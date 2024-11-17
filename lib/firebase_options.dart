@@ -60,4 +60,5 @@ class DefaultFirebaseOptions {
     authDomain: 'process-automation-app.firebaseapp.com',
     storageBucket: 'process-automation-app.firebasestorage.app',
   );
+
 }

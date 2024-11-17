@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:process_automation_app/common/utils/enums/project_status_enum.dart';
 import 'package:process_automation_app/features/project/models/project_model.dart';
@@ -48,6 +49,7 @@ final projectProvider = StateNotifierProvider.autoDispose<ProjectProvider, List<
   (ref) => ProjectProvider(
     projectRepository: ProjectRepositoryImpl(
       dio: Dio(),
+      firebaseAuth: FirebaseAuth.instance,
     ),
   )..fetchProjects(),
 );
