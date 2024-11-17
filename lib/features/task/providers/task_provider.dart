@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,10 +28,17 @@ class TaskNotifier extends StateNotifier<TaskState> {
 
   final TaskRepository _taskRepository;
 
-  Future<void> fetchTasks({
-    required String projectId,
-  }) async {
-    state = TaskState.loaded(tasks: []);
+  Future<void> fetchTasks() async {
+    try {
+      state = const TaskState.loading();
+
+      final tasks = await _taskRepository.fetchTasks();
+
+      state = TaskState.loaded(tasks: tasks);
+    } catch (e) {
+      state = const TaskState.loaded(tasks: []);
+      rethrow;
+    }
   }
 
   Future<void> createTask({
@@ -42,22 +47,26 @@ class TaskNotifier extends StateNotifier<TaskState> {
     required TaskStatusEnum status,
     required TaskPriorityEnum priority,
   }) async {
-    state = const TaskState.loading();
+    try {
+      state = const TaskState.loading();
 
-    final TaskModel task = await _taskRepository.createTask(
-      name: name,
-      description: description,
-      status: status,
-      priority: priority,
-    );
+      final TaskModel task = await _taskRepository.createTask(
+        name: name,
+        description: description,
+        status: status,
+        priority: priority,
+      );
 
-    state = TaskState.loaded(tasks: [task]);
+      await fetchTasks();
+    } catch (e) {
+      state = const TaskState.loaded(tasks: []);
+      rethrow;
+    }
   }
 
-  Future<void> changeStatus(
-    String taskId,
-    TaskStatusEnum status,
-  ) async {
+  Future<void> updateTask({
+    required TaskModel updatedTask,
+  }) async {
     final currentState = state.mapOrNull(
       loaded: (value) => value,
     );
@@ -65,9 +74,13 @@ class TaskNotifier extends StateNotifier<TaskState> {
     if (currentState != null) {
       state = const TaskState.loading();
 
+      final task = await _taskRepository.updateTask(
+        task: updatedTask,
+      );
+
       final List<TaskModel> updatedTasks = currentState.tasks
           .map(
-            (e) => e.id == taskId ? e.copyWith(status: status) : e,
+            (e) => e.id == task.id ? task : e,
           )
           .toList();
 
@@ -82,4 +95,4 @@ final taskProvider = StateNotifierProvider.autoDispose<TaskNotifier, TaskState>(
             dio: Dio(),
             firebaseAuth: FirebaseAuth.instance,
           ),
-        )..fetchTasks(projectId: window.localStorage['project_id'] as String));
+        )..fetchTasks());

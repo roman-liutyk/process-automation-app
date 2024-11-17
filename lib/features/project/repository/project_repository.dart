@@ -19,6 +19,8 @@ abstract class ProjectRepository {
   Future<ProjectModel> fetchProject();
 
   Future<List<ProjectMemberModel>> fetchProjectMembers();
+
+  Future<void> addProjectMember();
 }
 
 /// An implementation of the [ProjectRepository] interface.
@@ -163,5 +165,11 @@ class ProjectRepositoryImpl implements ProjectRepository {
       );
     }
     return projectMembers;
+  }
+
+  @override
+  Future<void> addProjectMember() {
+    // TODO: implement addProjectMember
+    throw UnimplementedError();
   }
 }

@@ -37,9 +37,12 @@ class TaskBoardView extends ConsumerWidget {
 
                     return DragTarget<String>(
                       onAcceptWithDetails: (data) {
-                        ref.read(taskProvider.notifier).changeStatus(
-                              data.data,
-                              TaskStatusEnum.values[index],
+                        ref.read(taskProvider.notifier).updateTask(
+                              updatedTask: loaded.tasks
+                                  .firstWhere((e) => e.id == data.data)
+                                  .copyWith(
+                                    status: TaskStatusEnum.values[index],
+                                  ),
                             );
                       },
                       builder: (context, candidateData, rejectedData) {

@@ -287,7 +287,7 @@ packages:
     source: hosted
     version: "7.4.9"
   firebase_auth_web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_auth_web
       sha256: "56dcce4293e2a2c648c33ab72c09e888bd0e64cbb1681a32575ec9dc9c2f67f3"
@@ -311,7 +311,7 @@ packages:
     source: hosted
     version: "5.3.0"
   firebase_core_web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_core_web
       sha256: f967a7138f5d2ffb1ce15950e2a382924239eaa521150a8f144af34e68b3b3e5
@@ -433,10 +433,10 @@ packages:
     dependency: transitive
     description:
       name: google_identity_services_web
-      sha256: bf215f340648e78697fdac486d75fca67f85944502e579bdcecd029babc6f4d8
+      sha256: "55580f436822d64c8ff9a77e37d61f5fb1e6c7ec9d632a43ee324e2a05c3c6c9"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.2"
+    version: "0.3.3"
   google_sign_in:
     dependency: "direct main"
     description:

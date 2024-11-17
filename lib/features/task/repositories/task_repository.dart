@@ -15,6 +15,12 @@ abstract class TaskRepository {
     required TaskStatusEnum status,
     required TaskPriorityEnum priority,
   });
+
+  Future<List<TaskModel>> fetchTasks();
+
+  Future<TaskModel> updateTask({
+    required TaskModel task,
+  });
 }
 
 class TaskRepositoryImpl implements TaskRepository {
@@ -56,6 +62,56 @@ class TaskRepositoryImpl implements TaskRepository {
         'status': status.toString(),
         'priority': priority.toString(),
       },
+    );
+
+    return TaskModel.fromJson(response.data);
+  }
+
+  @override
+  Future<List<TaskModel>> fetchTasks() async {
+    final Uri url = Uri.parse(
+        '${AppConstants.baseUrl}/tasks/project/${window.localStorage['project_id']}');
+
+    final token = await _firebaseAuth.currentUser?.getIdToken();
+
+    if (token == null) {
+      throw Exception('Token cannot be null');
+    }
+
+    final response = await _dio.getUri(
+      url,
+      options: Options(
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+      ),
+    );
+
+    return (response.data as List)
+        .map((json) => TaskModel.fromJson(json))
+        .toList();
+  }
+
+  @override
+  Future<TaskModel> updateTask({
+    required TaskModel task,
+  }) async {
+    final Uri url = Uri.parse('${AppConstants.baseUrl}/tasks/${task.id}');
+
+    final token = await _firebaseAuth.currentUser?.getIdToken();
+
+    if (token == null) {
+      throw Exception('Token cannot be null');
+    }
+
+    final response = await _dio.putUri(
+      url,
+      options: Options(
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $token',
+        },
+      ),
+      data: task.toJson(),
     );
 
     return TaskModel.fromJson(response.data);
