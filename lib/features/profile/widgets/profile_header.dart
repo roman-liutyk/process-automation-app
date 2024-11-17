@@ -24,8 +24,38 @@ class ProfileHeader extends ConsumerWidget {
           children: [
             CircleAvatar(
               radius: 48,
-              backgroundImage: NetworkImage(
-                user.photoURL ?? 'https://ui-avatars.com/api/?name=${user.displayName ?? "User"}',
+              backgroundColor: Colors.grey[200],
+              child: Builder(
+                builder: (context) {
+                  final user = ref.watch(profileProvider);
+                  final String displayName = user?.displayName ?? 'User';
+
+                  if (user?.photoURL != null) {
+                    return ClipOval(
+                      child: Image.network(
+                        user!.photoURL!,
+                        width: 96,
+                        height: 96,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return _buildFallbackAvatar(displayName);
+                        },
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }
+
+                  return _buildFallbackAvatar(displayName);
+                },
               ),
             ),
             const SizedBox(width: 20),
@@ -80,4 +110,17 @@ class ProfileHeader extends ConsumerWidget {
       ],
     );
   }
+}
+
+Widget _buildFallbackAvatar(String displayName) {
+  final initials = displayName.split(' ').map((e) => e.isNotEmpty ? e[0].toUpperCase() : '').join('').padRight(1);
+
+  return Text(
+    initials,
+    style: const TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.bold,
+      color: Colors.black54,
+    ),
+  );
 }
