@@ -8,7 +8,7 @@
       "name": "process_automation_app",
       "request": "launch",
       "type": "dart",
-      "args": ["-d", "chrome", "--web-port", "8080"]
+      "args": ["-d", "chrome", "--web-port", "8080", "--web-browser-flag", "--disable-web-security"]
     }
   ]
 }

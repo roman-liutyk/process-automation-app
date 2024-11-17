@@ -44,8 +44,7 @@ class ProjectProvider extends StateNotifier<List<ProjectModel>?> {
   }
 }
 
-final projectProvider =
-    StateNotifierProvider.autoDispose<ProjectProvider, List<ProjectModel>?>(
+final projectProvider = StateNotifierProvider.autoDispose<ProjectProvider, List<ProjectModel>?>(
   (ref) => ProjectProvider(
     projectRepository: ProjectRepositoryImpl(
       dio: Dio(),
