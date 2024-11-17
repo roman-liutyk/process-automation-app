@@ -8,6 +8,7 @@ import 'package:process_automation_app/features/profile/views/profile_view.dart'
 import 'package:process_automation_app/features/project/views/project_details_view.dart';
 import 'package:process_automation_app/features/project/views/project_list_view.dart';
 import 'package:process_automation_app/features/task/views/task_board_view.dart';
+import 'package:process_automation_app/features/task/views/task_details_view.dart';
 
 final GoRouter appRouter = GoRouter(
   debugLogDiagnostics: true,
@@ -55,24 +56,34 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: ':uuid/details',
           pageBuilder: (context, state) {
-            window.localStorage['project_id'] =
-                state.pathParameters['uuid'] as String;
+            window.localStorage['project_id'] = state.pathParameters['uuid'] as String;
             return const NoTransitionPage(
               child: ProjectDetailsView(),
             );
           },
         ),
         GoRoute(
-          path: ':uuid/tasks',
-          pageBuilder: (context, state) {
-            window.localStorage['project_id'] =
-                state.pathParameters['uuid'] as String;
+            path: ':uuid/tasks',
+            pageBuilder: (context, state) {
+              window.localStorage['project_id'] = state.pathParameters['uuid'] as String;
 
-            return const NoTransitionPage(
-              child: TaskBoardView(),
-            );
-          },
-        ),
+              return const NoTransitionPage(
+                child: TaskBoardView(),
+              );
+            },
+            routes: [
+              GoRoute(
+                path: ':taskId',
+                pageBuilder: (context, state) {
+                  window.localStorage['project_id'] = state.pathParameters['uuid'] as String;
+                  window.localStorage['task_id'] = state.pathParameters['taskId'] as String;
+
+                  return const NoTransitionPage(
+                    child: TaskDetailsView(),
+                  );
+                },
+              ),
+            ]),
       ],
     ),
     GoRoute(
